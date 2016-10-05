@@ -10,9 +10,11 @@ namespace Server {
         public app: any;
         public http: any;
         public network: Network;
+        public express:any;
 
         private initialize() {
-            this.app = require('express')();
+            this.express = require('express');
+            this.app = this.express();
             this.http = require('http').Server(this.app);
 
             this.network = new Network(this.http);
@@ -20,6 +22,10 @@ namespace Server {
             this.app.get('/', function (req: any, res: any) {
                 res.sendFile('index.html', {root: __dirname});
             });
+
+            this.app.use(this.express.static('public'));
+            this.app.use(this.express.static('assets'));
+
 
             this.http.listen(3000, function () {
                 console.log('listening on *:3000');

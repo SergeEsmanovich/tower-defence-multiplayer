@@ -4,19 +4,12 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-        var socket = io();
-        setInterval(function () {
-            socket.emit('message', {test: 'test'});
-        }, 5000);
-
-        socket.on('message',function(msg){
-            console.log(msg);
-        });
-
-    </script>
+    <script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
+    <script src="pixi.min.js" type="text/javascript"></script>
+    <script src="client.js" type="text/javascript"></script>
 </head>
 <body>
 test
+<div id="gameContainer"></div>
 </body>
 </html>
