@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+        setInterval(function () {
+            socket.emit('message', {test: 'test'});
+        }, 5000);
+
+        socket.on('message',function(msg){
+            console.log(msg);
+        });
+
+    </script>
+</head>
+<body>
+test
+</body>
+</html>

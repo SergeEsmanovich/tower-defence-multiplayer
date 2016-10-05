@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "outFile": "../client.js"
+    },
+    "files": [
+        "script.ts"
+    ],
+    "compileOnSave": true
+}
+
