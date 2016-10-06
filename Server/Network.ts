@@ -45,7 +45,7 @@ namespace Server {
         }
 
         private getRandomPosition(): string {
-            return this.getRandomInt(1, 100) + '|' + this.getRandomInt(1, 100);
+            return this.getRandomInt(100, 800) + '|' + this.getRandomInt(100, 600);
         }
 
 

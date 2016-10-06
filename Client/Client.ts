@@ -1,14 +1,14 @@
 /// <reference path="../typings/index.d.ts" />
-/// <reference path="View.ts" />
+/// <reference path="PixiLoader.ts" />
 namespace Client {
     export class Game {
         constructor() {
             this.initialize();
-            this.view = new Client.PixiView();
+            this.loader = new Client.PixiLoader();
         }
 
+        public loader: Client.PixiLoader;
         public socket: any;
-        public view: any;
 
         private initialize() {
             this.socket = io();
@@ -25,10 +25,8 @@ namespace Client {
         }
 
         private listener() {
-            let self = this;
             this.socket.on('message', function (msg: string) {
-                self.view.updateBunnyPosition(msg);
-                self.view.update();
+                Client.PixiLoader.game.updateBunnyPosition(msg);
             });
         }
 
