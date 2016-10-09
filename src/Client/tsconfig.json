@@ -5,7 +5,7 @@
         "removeComments": true,
         "preserveConstEnums": true,
         "sourceMap": true,
-        "outFile": "../public/client.js"
+        "outFile": "../../public/client.js"
     },
     "files": [
         "Client.ts"

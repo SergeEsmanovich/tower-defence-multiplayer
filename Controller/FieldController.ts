@@ -1,5 +1,0 @@
-namespace Conroller {
-    class FieldController {
-
-    }
-}

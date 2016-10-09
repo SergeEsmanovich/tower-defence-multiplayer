@@ -1,7 +1,6 @@
-/// <reference path="../typings/index.d.ts" />
+/// <reference path="../../typings/index.d.ts" />
 /// <reference path="Network.ts" />
 namespace Server {
-    import Network = Server.Network;
     export class Core {
         constructor() {
             this.initialize();
@@ -9,7 +8,7 @@ namespace Server {
 
         public app: any;
         public http: any;
-        public network: Network;
+        public network: Server.Network;
         public express:any;
 
         private initialize() {
@@ -25,6 +24,7 @@ namespace Server {
 
             this.app.use(this.express.static('public'));
             this.app.use(this.express.static('assets'));
+            this.app.use(this.express.static('src'));
 
 
             this.http.listen(3000, function () {

@@ -5,10 +5,10 @@
         "removeComments": true,
         "preserveConstEnums": true,
         "sourceMap": true,
-        "outFile": "../server.js"
+        "outFile": "../../server.js"
     },
     "files": [
-        "Server.ts"
+      "Server.ts"
     ],
     "compileOnSave": true
 }
