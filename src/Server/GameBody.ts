@@ -44,7 +44,7 @@ namespace Server {
 
 
         private createWalls() {
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 100; i++) {
                 let wall = new Entities.GameEntity();
                 wall.position.x = Helper.Core.getRandomInt(-1000, 1000);
                 wall.position.y = Helper.Core.getRandomInt(-1000, 1000);

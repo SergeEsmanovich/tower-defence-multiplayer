@@ -14,6 +14,10 @@ namespace Controller {
             this.players.push(player);
         }
 
+        public findPlayer(){
+
+        }
+
         public addEntity(entity: Entities.GameEntity) {
             this.entities.push(entity);
         }

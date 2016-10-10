@@ -3,9 +3,9 @@ namespace Conroller {
     export class FieldViewController {
 
 
-        public player:Client.GameEntityView;
+        public player: Client.GameEntityView;
 
-        public scene:Client.GameScene;
+        public scene: Client.GameScene;
 
 
         public worldContainer: PIXI.Container;
@@ -22,8 +22,9 @@ namespace Conroller {
                 let entity = new Entities.GameEntity();
                 entity.id = Number(entityParams[0]);
                 entity.type = Number(entityParams[1]);
-                entity.position.x = ~~Number(entityParams[2]);
-                entity.position.y = ~~Number(entityParams[3]);
+
+                entity.setPosition(new Helper.Point(~~Number(entityParams[2]), ~~Number(entityParams[3])));
+
                 this.entities[entityParams[0]] = entity;
                 this.ids.push(Number(entityParams[0]));
             });
@@ -43,16 +44,13 @@ namespace Conroller {
                         entityView.type = serverEntityDesc.type;
                         entityView.setName('bunny');
                         entityView.setStage(this.worldContainer);
-                        entityView.initialize(serverEntityDesc.position);
+                        entityView.initialize();
                         entityView.setScale(0.5);
-                        entityView.targetPosition = new Helper.Point(1000,1000);
-                        entityView.activeMove = true;
+                        entityView.setPosition(serverEntityDesc.position.clone());
+                        entityView.setWorld(this.worldContainer);
                         this.worldContainer.addChild(entityView.view);
-                        // console.log('new player');
+
                         this.entityViews[entityId] = entityView;
-
-
-
                         this.scene.setPlayer(this.entityViews[entityId]);
 
                     } else {
@@ -61,24 +59,16 @@ namespace Conroller {
                         entityView.type = serverEntityDesc.type;
                         entityView.setName('tad');
                         entityView.setStage(this.worldContainer);
-
-                        entityView.initialize(serverEntityDesc.position);
+                        entityView.initialize();
+                        entityView.setPosition(serverEntityDesc.position.clone());
                         this.worldContainer.addChild(entityView.view);
-                        // console.log('new');
                         this.entityViews[entityId] = entityView;
                     }
                 } else {
-                    entityView = this.entityViews[entityId];
-                    // console.log('old');
+                    this.entityViews[entityId].targetPosition = serverEntityDesc.position;
+                    this.entityViews[entityId].activeMove = true;
                 }
-                if (entityView) {
-                    entityView.targetPosition = serverEntityDesc.position;
-                    entityView.activeMove = true;
-                    // entityView.setPosition(serverEntityDesc.position);
-                    console.log(this.ids.length);
-                } else {
-                    console.log('not found entity');
-                }
+
 
             });
         }
@@ -86,7 +76,6 @@ namespace Conroller {
         delegateWorldContainer(world: PIXI.Container) {
             this.worldContainer = world;
         }
-
 
 
         setScene(gameScene: Client.GameScene) {

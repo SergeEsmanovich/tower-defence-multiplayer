@@ -24,24 +24,6 @@ namespace Client {
 
             this.fieldViewController.delegateWorldContainer(this.world);
 
-            // this.bunny = this.createEntityView(this.stage, 'bunny');
-            // this.bunny.scene = this;
-            // this.bunny.setScale(0.5);
-            // this.addEntity(this.bunny.view);
-
-            this.tad = this.createEntityView(this.stage, 'tad');
-            this.tad.view.position.x += 100;
-            this.tad.view.blendMode = PIXI.BLEND_MODES.ADD;
-            this.addEntity(this.tad.view);
-
-            // for (let i = 0; i < 100; i++) {
-            //     let wall = this.createEntityView(this.stage, 'tad');
-            //     wall.view.position.x = Helper.Core.getRandomInt(-this.screen.width, this.screen.width);
-            //     wall.view.position.y = Helper.Core.getRandomInt(-this.screen.health, this.screen.health);
-            //     this.addEntity(wall.view);
-            //     this.walls.push(wall);
-            // }
-
             var style = {
                 fontFamily: 'Arial',
                 fontSize: '36px',
@@ -73,10 +55,15 @@ namespace Client {
             health: 0
         };
 
-        public resizeFullScreen() {
+        public setWindowsSize() {
             this.screen.width = $(window).width();
             this.screen.health = $(window).height();
+        }
+
+        public resizeFullScreen() {
+            this.setWindowsSize();
             $(window).resize(()=> {
+                this.setWindowsSize();
                 this.renderer.resize(this.screen.width, this.screen.health);
             });
         }
@@ -87,7 +74,7 @@ namespace Client {
         public renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
 
         // public bunny:any;
-        public player: Client.GameEntityView;
+        public player: Client.GameEntityView = null;
 
         public tad: Client.GameEntityView;
 
@@ -104,25 +91,24 @@ namespace Client {
 
         public update() {
             requestAnimationFrame(this.update.bind(this));
+            if (this.player) {
+                let focusPoint = this.player.getPosition();
+                this.focusToPoint(focusPoint);
+            }
 
-            // this.world.position.x -= 0.1;
-            // this.bunny.stepToPoint();
-            this.focusToPoint(new Helper.Point());
             this.fieldViewController.ids.forEach((entityId: number)=> {
                 this.fieldViewController.entityViews[entityId].stepToPoint();
             });
-            // this.tad.stepToPoint();
-
             this.renderer.render(this.stage);
         };
 
         public createEntityView(stage: PIXI.Container, name: string) {
             if (PIXI.loader.loading == false) {
-                let entityView = new Client.GameEntityView();
-                entityView.setStage(stage);
-                entityView.setName(name);
-                entityView.initialize(new Helper.Point());
-                return entityView;
+                // let entityView = new Client.GameEntityView();
+                // entityView.setStage(stage);
+                // entityView.setName(name);
+                // entityView.initialize();
+                // return entityView;
             }
         }
 
@@ -185,13 +171,13 @@ namespace Client {
         //
         // }
 
-        public updateTadPosition(msg: any) {
-            // this.tad.setPosition(new Helper.Point());
-            if (this.bunnyBuffer.length > 1) {
-                let point = new Helper.Point(this.bunnyBuffer[this.bunnyBuffer.length - 1].x, this.bunnyBuffer[this.bunnyBuffer.length - 1].y);
-                this.tad.setPosition(point);
-            }
-        }
+        // public updateTadPosition(msg: any) {
+        //     // this.tad.setPosition(new Helper.Point());
+        //     if (this.bunnyBuffer.length > 1) {
+        //         let point = new Helper.Point(this.bunnyBuffer[this.bunnyBuffer.length - 1].x, this.bunnyBuffer[this.bunnyBuffer.length - 1].y);
+        //         this.tad.setPosition(point);
+        //     }
+        // }
 
         public calculateDeltaPing(timePing: number) {
             this.deltaPing.delta += timePing;
@@ -211,16 +197,14 @@ namespace Client {
         }
 
         public focusToPoint(focus: Helper.Point) {
-                let worldPos = new Helper.Point(this.world.position.x, this.world.position.y);
-                let bunnyPosition = focus; //this.player.getPosition();
-                let length = bunnyPosition.getLengthToPoint(worldPos);
-                // console.log(bunnyPosition);
-                let point = new Helper.Point(this.screen.width * 0.25 + (this.screen.width * 0.4 - bunnyPosition.x), this.screen.health * 0.25 + (this.screen.health * 0.6 - bunnyPosition.y));
-
+            let worldPos = new Helper.Point(this.world.position.x, this.world.position.y);
+            let length = focus.getLengthToPoint(worldPos);
+            if (length) {
+                let point = new Helper.Point(this.screen.width * 0.25 + (this.screen.width * 0.4 - focus.x), this.screen.health * 0.25 + (this.screen.health * 0.6 - focus.y));
                 let vector = point.getVector(worldPos);
-
                 this.world.position.x += ~~(length / 30) * vector.x / length;
                 this.world.position.y += ~~(length / 30) * vector.y / length;
+            }
         }
 
 

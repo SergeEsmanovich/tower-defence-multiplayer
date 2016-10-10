@@ -28,17 +28,25 @@ namespace Entities {
                 point = this.targetPosition.getVector(this.position);
 
                 var length = point.getLengthIsCurrentPointVector();
-                this.position.x += this.speed * point.x / length;
-                this.position.y += this.speed * point.y / length;
 
                 if (length < 10) {
                     this.activeMove = false;
-                    console.log('I came');
                 }
+
+                if(length) {
+                    this.position.x += this.speed * point.x / length;
+                    this.position.y += this.speed * point.y / length;
+                }
+
+
             }
         }
 
-        getPositionString():string {
+        public setPosition(position: Helper.Point) {
+            this.position = position;
+        }
+
+        getPositionString(): string {
             return ~~this.position.x + ',' + ~~this.position.y;
         }
 

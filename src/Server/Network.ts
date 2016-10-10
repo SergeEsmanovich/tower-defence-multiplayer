@@ -54,6 +54,7 @@ namespace Server {
 
             client.getSocket().on('message', (msg: string) => {
                 client.msg = msg;
+                console.log(msg);
 
                 let mess = this.fieldController.createMessageForSend();
 
