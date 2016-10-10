@@ -20,7 +20,7 @@ namespace Client {
             this.input.attachEvents();
             setInterval(()=> {
                 this.sendMessage(this.input.constructInputBitmask().toString() + '|' + new Date().getTime());
-            }, Math.round(2000));
+            }, Math.round(1000));
 
             this.listener();
         }
@@ -31,7 +31,9 @@ namespace Client {
 
         private listener() {
             this.socket.on('message', function (msg: string) {
-                Client.PixiLoader.game.updateWorld(msg);
+                if(Client.PixiLoader.game) {
+                    Client.PixiLoader.game.updateWorld(msg);
+                }
 
                 // setTimeout(function () {
                 // Client.PixiLoader.game.updateBunnyPosition(msg);

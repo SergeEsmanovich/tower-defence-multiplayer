@@ -1,4 +1,4 @@
-namespace Conroller {
+namespace Controller {
     export class Client {
         constructor(socket: any, clientId: number) {
             this.socket = socket;

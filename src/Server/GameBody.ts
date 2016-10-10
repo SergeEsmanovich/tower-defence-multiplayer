@@ -1,5 +1,5 @@
 namespace Server {
-    import FieldController = Conroller.FieldController;
+    import FieldController = Controller.FieldController;
     export class GameBody {
 
         constructor(fieldController: FieldController) {
@@ -8,12 +8,17 @@ namespace Server {
 
             this.interval = setInterval(()=> {
                 this.update();
-            }, 1000);
+            }, 5);
+
+            this.interval = setInterval(()=> {
+                this.IINPC();
+            }, 10000);
+
         }
 
         public msg: string;
         public interval: any;
-        public fieldController: Conroller.FieldController;
+        public fieldController: Controller.FieldController;
 
         public receiveMessage(msg: string, socket: any) {
             console.log(socket.id);
@@ -21,7 +26,16 @@ namespace Server {
         }
 
         public update() {
+            this.fieldController.entities.forEach((entity: Entities.GameEntity)=> {
+                entity.stepToPoint();
+            });
+        }
 
+        public IINPC() {
+            this.fieldController.entities.forEach((entity: Entities.GameEntity)=> {
+                entity.targetPosition = new Helper.Point(Helper.Core.getRandomInt(-1000, 1000), Helper.Core.getRandomInt(-1000, 1000))
+                entity.activeMove = true;
+            });
         }
 
         private buildWorld() {
@@ -30,11 +44,10 @@ namespace Server {
 
 
         private createWalls() {
-            for (let i = 0; i < 100; i++) {
+            for (let i = 0; i < 5; i++) {
                 let wall = new Entities.GameEntity();
-                wall.position.x = Helper.Core.getRandomInt(-1000,1000);
-                wall.position.y = Helper.Core.getRandomInt(-1000,1000);
-                wall.type = 1;
+                wall.position.x = Helper.Core.getRandomInt(-1000, 1000);
+                wall.position.y = Helper.Core.getRandomInt(-1000, 1000);
                 wall.id = this.fieldController.getNextEntityId();
                 this.fieldController.addEntity(wall);
             }

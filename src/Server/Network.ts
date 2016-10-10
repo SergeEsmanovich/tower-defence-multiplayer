@@ -11,19 +11,17 @@ namespace Server {
         constructor(http: Server) {
             this.http = http;
             this.initialize();
-            this.player = new Entities.PlayerEntity();
-            this.fieldController = new Conroller.FieldController();
+            this.fieldController = new Controller.FieldController();
             this.gameBody = new Server.GameBody(this.fieldController);
         }
 
         public gameBody: Server.GameBody;
         private clientId: number = 1;
-        public player: Entities.PlayerEntity;
         public socket: any;
         public io: any;
         public http: any;
         public alpha: number = 0;
-        public fieldController: Conroller.FieldController;
+        public fieldController: Controller.FieldController;
 
 
         public id: number = 0;
@@ -47,12 +45,12 @@ namespace Server {
         }
 
         public onSocketConnection() {
-            let client = new Conroller.Client(this.socket, this.getClientId());
+            let client = new Controller.Client(this.socket, this.getClientId());
             this.fieldController.addPlayer(client);
             this.onSocketMessages(client);
         }
 
-        private onSocketMessages(client: Conroller.Client) {
+        private onSocketMessages(client: Controller.Client) {
 
             client.getSocket().on('message', (msg: string) => {
                 client.msg = msg;
@@ -70,25 +68,25 @@ namespace Server {
 
         }
 
-        private getPosition(temp: any) {
-            let input = new Helper.Input();
-            input.deconstructInputBitmask(Number(temp[0]));
-            if (input.isLeft()) {
-                this.player.position.x -= this.player.speed;
-            }
-            if (input.isRight()) {
-                this.player.position.x += this.player.speed;
-            }
-            if (input.isUp()) {
-                this.player.position.y -= this.player.speed;
-            }
-            if (input.isDown()) {
-                this.player.position.y += this.player.speed;
-            }
-
-            this.id++;
-            return this.player.position.x + '|' + this.player.position.y + '|' + temp[1] + '|' + this.id;
-        }
+        // private getPosition(temp: any) {
+        //     let input = new Helper.Input();
+        //     input.deconstructInputBitmask(Number(temp[0]));
+        //     if (input.isLeft()) {
+        //         this.player.position.x -= this.player.speed;
+        //     }
+        //     if (input.isRight()) {
+        //         this.player.position.x += this.player.speed;
+        //     }
+        //     if (input.isUp()) {
+        //         this.player.position.y -= this.player.speed;
+        //     }
+        //     if (input.isDown()) {
+        //         this.player.position.y += this.player.speed;
+        //     }
+        //
+        //     this.id++;
+        //     return this.player.position.x + '|' + this.player.position.y + '|' + temp[1] + '|' + this.id;
+        // }
 
 
         private debug(msg: string) {

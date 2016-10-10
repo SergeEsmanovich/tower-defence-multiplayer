@@ -1,4 +1,5 @@
 /// <reference path="../../src/Helper/Point.ts" />
+/// <reference path="../../src/Server/Config.ts" />
 namespace Entities {
     export class GameEntity {
         constructor() {
@@ -7,10 +8,10 @@ namespace Entities {
 
         public id: number;
         public name: string;
-        public type: number;
+        public type: number = Server.Config.ENTITY_TYPES.CANDY_ENTITY;
         public position: Helper.Point;
 
-        public speed: number = 1;
+        public speed: number = 0.5;
 
         public targetPosition: Helper.Point = null;
 
@@ -23,11 +24,22 @@ namespace Entities {
 
 
         public stepToPoint(point: Helper.Point = null) {
+            if (this.activeMove && this.targetPosition) {
+                point = this.targetPosition.getVector(this.position);
 
+                var length = point.getLengthIsCurrentPointVector();
+                this.position.x += this.speed * point.x / length;
+                this.position.y += this.speed * point.y / length;
+
+                if (length < 10) {
+                    this.activeMove = false;
+                    console.log('I came');
+                }
+            }
         }
 
         getPositionString():string {
-            return this.position.x + ',' + this.position.y;
+            return ~~this.position.x + ',' + ~~this.position.y;
         }
 
     }

@@ -6,6 +6,8 @@ namespace Client {
         constructor() {
             this.fieldViewController = new Conroller.FieldViewController();
 
+            this.fieldViewController.setScene(this);
+
             this.resizeFullScreen();
             this.renderer = PIXI.autoDetectRenderer(this.screen.width, this.screen.health, {autoResize: true}, false);
             $('#gameContainer').append(this.renderer.view);
@@ -22,10 +24,10 @@ namespace Client {
 
             this.fieldViewController.delegateWorldContainer(this.world);
 
-            this.bunny = this.createEntityView(this.stage, 'bunny');
-            this.bunny.scene = this;
-            this.bunny.setScale(0.5);
-            this.addEntity(this.bunny.view);
+            // this.bunny = this.createEntityView(this.stage, 'bunny');
+            // this.bunny.scene = this;
+            // this.bunny.setScale(0.5);
+            // this.addEntity(this.bunny.view);
 
             this.tad = this.createEntityView(this.stage, 'tad');
             this.tad.view.position.x += 100;
@@ -39,10 +41,6 @@ namespace Client {
             //     this.addEntity(wall.view);
             //     this.walls.push(wall);
             // }
-
-
-            this.focusToPoint();
-
 
             var style = {
                 fontFamily: 'Arial',
@@ -89,7 +87,7 @@ namespace Client {
         public renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
 
         // public bunny:any;
-        public bunny: Client.GameEntityView;
+        public player: Client.GameEntityView;
 
         public tad: Client.GameEntityView;
 
@@ -108,8 +106,11 @@ namespace Client {
             requestAnimationFrame(this.update.bind(this));
 
             // this.world.position.x -= 0.1;
-            this.bunny.stepToPoint();
-            this.focusToPoint();
+            // this.bunny.stepToPoint();
+            this.focusToPoint(new Helper.Point());
+            this.fieldViewController.ids.forEach((entityId: number)=> {
+                this.fieldViewController.entityViews[entityId].stepToPoint();
+            });
             // this.tad.stepToPoint();
 
             this.renderer.render(this.stage);
@@ -120,7 +121,7 @@ namespace Client {
                 let entityView = new Client.GameEntityView();
                 entityView.setStage(stage);
                 entityView.setName(name);
-                entityView.initialize();
+                entityView.initialize(new Helper.Point());
                 return entityView;
             }
         }
@@ -135,54 +136,54 @@ namespace Client {
             this.stage.removeChild(anEntityView);
         };
 
-        public updateBunnyPosition(msg: string = null) {
-
-            if (msg) {
-                let point = new Helper.Point();
-                let temp: any = msg.split('|');
-                point.x = temp[0] * 1;
-                point.y = temp[1] * 1;
-                point.serverTime = temp[2] * 1;
-                point.id = temp[3] * 1;
-                point.timePing = point.ping();
-
-                if (point.timePing.toString() == 'NaN') {
-                    console.log(point);
-                }
-
-                this.calculateDeltaPing(point.timePing);
-
-                this.bunnyBuffer.push(point);
-                // console.log(this.bunnyBuffer.length);
-            }
-
-            if (this.bunnyBuffer.length > 4) {
-
-                let currentPosition = this.bunny.getPosition();
-                let nextPosition = this.bunnyBuffer.shift();
-                this.bunny.targetPosition = nextPosition;
-                let vec = nextPosition.getVector(currentPosition);
-                this.bunny.view.rotation = Math.atan2(vec.y, vec.x) + Math.PI / 2 + Math.PI;
-                let length = currentPosition.getLengthToPoint(nextPosition);
-
-                // console.log(this.deltaPing.ping);
-                // console.log(length);
-                // console.log(nextPosition.ping());
-                //Может нужно делить на количество кадров
-                this.bunny.speed = length / 8;
-                // console.log(this.deltaPing.ping);
-
-                // if (this.bunny.activeMove === true) {
-                //     console.log('very sorry I didn\'t come');
-                // }
-                if (length > 10) {
-                    this.bunny.activeMove = true;
-                }
-
-            }
-
-
-        }
+        // public updateBunnyPosition(msg: string = null) {
+        //
+        //     if (msg) {
+        //         let point = new Helper.Point();
+        //         let temp: any = msg.split('|');
+        //         point.x = temp[0] * 1;
+        //         point.y = temp[1] * 1;
+        //         point.serverTime = temp[2] * 1;
+        //         point.id = temp[3] * 1;
+        //         point.timePing = point.ping();
+        //
+        //         if (point.timePing.toString() == 'NaN') {
+        //             console.log(point);
+        //         }
+        //
+        //         this.calculateDeltaPing(point.timePing);
+        //
+        //         this.bunnyBuffer.push(point);
+        //         // console.log(this.bunnyBuffer.length);
+        //     }
+        //
+        //     if (this.bunnyBuffer.length > 4) {
+        //
+        //         let currentPosition = this.bunny.getPosition();
+        //         let nextPosition = this.bunnyBuffer.shift();
+        //         this.bunny.targetPosition = nextPosition;
+        //         let vec = nextPosition.getVector(currentPosition);
+        //         this.bunny.view.rotation = Math.atan2(vec.y, vec.x) + Math.PI / 2 + Math.PI;
+        //         let length = currentPosition.getLengthToPoint(nextPosition);
+        //
+        //         // console.log(this.deltaPing.ping);
+        //         // console.log(length);
+        //         // console.log(nextPosition.ping());
+        //         //Может нужно делить на количество кадров
+        //         this.bunny.speed = length / 8;
+        //         // console.log(this.deltaPing.ping);
+        //
+        //         // if (this.bunny.activeMove === true) {
+        //         //     console.log('very sorry I didn\'t come');
+        //         // }
+        //         if (length > 10) {
+        //             this.bunny.activeMove = true;
+        //         }
+        //
+        //     }
+        //
+        //
+        // }
 
         public updateTadPosition(msg: any) {
             // this.tad.setPosition(new Helper.Point());
@@ -209,22 +210,26 @@ namespace Client {
             }
         }
 
-        public focusToPoint() {
-            let worldPos = new Helper.Point(this.world.position.x, this.world.position.y);
-            let bunnyPosition = this.bunny.getPosition();
-            let length = bunnyPosition.getLengthToPoint(worldPos);
-            // console.log(bunnyPosition);
-            let point = new Helper.Point(this.screen.width * 0.25 + (this.screen.width * 0.4 - bunnyPosition.x), this.screen.health * 0.25 + (this.screen.health * 0.6 - bunnyPosition.y));
+        public focusToPoint(focus: Helper.Point) {
+                let worldPos = new Helper.Point(this.world.position.x, this.world.position.y);
+                let bunnyPosition = focus; //this.player.getPosition();
+                let length = bunnyPosition.getLengthToPoint(worldPos);
+                // console.log(bunnyPosition);
+                let point = new Helper.Point(this.screen.width * 0.25 + (this.screen.width * 0.4 - bunnyPosition.x), this.screen.health * 0.25 + (this.screen.health * 0.6 - bunnyPosition.y));
 
-            let vector = point.getVector(worldPos);
+                let vector = point.getVector(worldPos);
 
-            this.world.position.x += ~~(length / 30) * vector.x / length;
-            this.world.position.y += ~~(length / 30) * vector.y / length;
+                this.world.position.x += ~~(length / 30) * vector.x / length;
+                this.world.position.y += ~~(length / 30) * vector.y / length;
         }
 
 
         updateWorld(msg: string) {
             this.fieldViewController.parseMessageFromServer(msg);
+        }
+
+        setPlayer(player: any) {
+            this.player = player;
         }
     }
 }

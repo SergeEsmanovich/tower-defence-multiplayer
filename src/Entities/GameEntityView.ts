@@ -12,12 +12,11 @@ namespace Client {
         public scene: Client.GameScene;
 
 
-        public initialize() {
+        public initialize(position:Helper.Point) {
             this.view = new PIXI.Sprite(this.loader.resources[this.name].texture);
             this.view.anchor.x = 0.5;
             this.view.anchor.y = 0.5;
-            this.view.position.x = 200;
-            this.view.position.y = 150;
+            // this.setPosition(position);
         }
 
         public setStage(stage: PIXI.Container) {

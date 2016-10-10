@@ -1,11 +1,19 @@
 /// <reference path="../../src/Helper/Point.ts" />
+/// <reference path="../../src/Controller/Client.ts" />
+/// <reference path="GameEntity.ts" />
 namespace Entities {
-    export class PlayerEntity {
+    export class PlayerEntity extends Entities.GameEntity{
         constructor() {
-            this.position = new Helper.Point(200, 200);
+           super();
         }
 
-        public position: Helper.Point;
-        public speed:number = 10;
+        public client: Controller.Client;
+        public input:Helper.Input;
+
+        public type = Server.Config.ENTITY_TYPES.PLAYER_ENTITY;
+
+        setClient(client: Controller.Client) {
+            this.client = client;
+        }
     }
 }
