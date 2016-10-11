@@ -200,7 +200,7 @@ namespace Client {
             let worldPos = new Helper.Point(this.world.position.x, this.world.position.y);
             let length = focus.getLengthToPoint(worldPos);
             if (length) {
-                let point = new Helper.Point(this.screen.width * 0.25 + (this.screen.width * 0.4 - focus.x), this.screen.health * 0.25 + (this.screen.health * 0.6 - focus.y));
+                let point = new Helper.Point(this.screen.width * 0.5 + (this.screen.width * 0.25 - focus.x), this.screen.health * 0.25 + (this.screen.health * 0.6 - focus.y));
                 let vector = point.getVector(worldPos);
                 this.world.position.x += ~~(length / 30) * vector.x / length;
                 this.world.position.y += ~~(length / 30) * vector.y / length;

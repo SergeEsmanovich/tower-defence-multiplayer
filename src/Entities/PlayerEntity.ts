@@ -12,7 +12,9 @@ namespace Entities {
         public input: Helper.Input;
         public inputCode: number = 0;
 
-        public speed = 10;
+        public targetVector: Helper.Point = new Helper.Point();
+
+        public speed = 1;
 
         public type = Server.Config.ENTITY_TYPES.PLAYER_ENTITY;
 
@@ -21,30 +23,41 @@ namespace Entities {
         }
 
         public stepToPoint() {
-            // console.log('update');
-            // this.setPosition(this.position);
+            if (this.activeMove) {
+                var length = this.targetVector.getLengthIsCurrentPointVector();
+                this.position.x += this.speed * this.targetVector.x / length;
+                this.position.y += this.speed * this.targetVector.y / length;
+            }
         }
 
 
         public calcVector(input: number) {
-            // this.position.x += 10;
             this.input.deconstructInputBitmask(input);
-            console.log(input);
+            this.activeMove = false;
+            this.targetVector = new Helper.Point();
             if (this.input.isLeft()) {
-                this.position.x -= 1;
+                console.log('left');
+                this.targetVector.addVector(new Helper.Point(-1, 0));
+                this.activeMove = true;
             }
             if (this.input.isRight()) {
-                this.position.x += 1;
+                console.log('right');
+                this.targetVector.addVector(new Helper.Point(1, 0));
+                this.activeMove = true;
             }
             if (this.input.isUp()) {
                 console.log('up');
-                this.position.y -= 1;
+                this.targetVector.addVector(new Helper.Point(0, -1));
+                this.activeMove = true;
             }
             if (this.input.isDown()) {
-                this.position.y += 1;
+                console.log('down');
+                this.targetVector.addVector(new Helper.Point(0, 1));
+                this.activeMove = true;
             }
 
-            console.log(this.position.x + ',' + this.position.y);
+            // console.log(this.activeMove);
+            // console.log(this.targetVector);
         }
 
 

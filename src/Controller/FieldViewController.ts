@@ -38,7 +38,7 @@ namespace Conroller {
 
                 if (!this.entityViews[entityId]) {
 
-                    if (serverEntityDesc.type === Server.Config.ENTITY_TYPES.PLAYER_ENTITY) {
+                    if (serverEntityDesc.type != Server.Config.ENTITY_TYPES.CANDY_ENTITY) {
                         entityView = new Client.GameEntityView();
                         entityView.id = serverEntityDesc.id;
                         entityView.type = serverEntityDesc.type;
@@ -46,12 +46,14 @@ namespace Conroller {
                         entityView.setStage(this.worldContainer);
                         entityView.initialize();
                         entityView.setScale(0.5);
-                        entityView.setPosition(serverEntityDesc.position.clone());
+                        entityView.setPosition(serverEntityDesc.position);
                         entityView.setWorld(this.worldContainer);
                         this.worldContainer.addChild(entityView.view);
 
                         this.entityViews[entityId] = entityView;
-                        this.scene.setPlayer(this.entityViews[entityId]);
+                        if (serverEntityDesc.type == Server.Config.ENTITY_TYPES.PLAYER_ENTITY) {
+                            this.scene.setPlayer(this.entityViews[entityId]);
+                        }
 
                     } else {
                         entityView = new Client.GameEntityView();
@@ -60,7 +62,7 @@ namespace Conroller {
                         entityView.setName('tad');
                         entityView.setStage(this.worldContainer);
                         entityView.initialize();
-                        entityView.setPosition(serverEntityDesc.position.clone());
+                        entityView.setPosition(serverEntityDesc.position);
                         this.worldContainer.addChild(entityView.view);
                         this.entityViews[entityId] = entityView;
                     }
@@ -68,9 +70,9 @@ namespace Conroller {
                     this.entityViews[entityId].targetPosition = serverEntityDesc.position;
                     this.entityViews[entityId].activeMove = true;
 
-                    if (this.entityViews[entityId].type == Server.Config.ENTITY_TYPES.PLAYER_ENTITY) {
-                        console.log(this.entityViews[entityId].position.x + ',' + this.entityViews[entityId].position.y);
-                    }
+                    // if (this.entityViews[entityId].type == Server.Config.ENTITY_TYPES.PLAYER_ENTITY) {
+                    //     console.log(this.entityViews[entityId].position.x + ',' + this.entityViews[entityId].position.y);
+                    // }
 
                 }
 

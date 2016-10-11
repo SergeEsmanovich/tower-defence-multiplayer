@@ -30,12 +30,15 @@ namespace Controller {
             this.entities.push(entity);
         }
 
-        public createMessageForSend() {
+        public createMessageForSend(id: string) {
             let message: string = '';
 
             this.players.forEach((player)=> {
-                message += player.id + ',' + player.type + ',' + player.getPositionString();
-                console.log(player.getPositionString());
+                if (player.client.socketId != id) {
+                    message += player.id + ',' + Server.Config.ENTITY_TYPES.OTHER_PLAYER_ENTITY + ',' + player.getPositionString() + '|';
+                } else {
+                    message += player.id + ',' + player.type + ',' + player.getPositionString() + '|';
+                }
             });
 
 

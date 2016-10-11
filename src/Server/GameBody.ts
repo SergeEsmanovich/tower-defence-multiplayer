@@ -26,7 +26,7 @@ namespace Server {
         }
 
         public update() {
-            this.fieldController.players.forEach((entity: Entities.GameEntity)=> {
+            this.fieldController.players.forEach((entity: Entities.PlayerEntity)=> {
                 entity.stepToPoint();
             });
 

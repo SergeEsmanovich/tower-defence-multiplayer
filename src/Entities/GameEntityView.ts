@@ -10,7 +10,7 @@ namespace Client {
         public view: any;
         public loader: any;
         public scene: Client.GameScene;
-        public speed: number = 1;
+        public speed: number = 3;
         public world: PIXI.Container;
 
 
@@ -33,26 +33,21 @@ namespace Client {
         public stepToPoint(point: Helper.Point = null) {
             if (this.activeMove && this.targetPosition) {
                 let currentPosition = this.getPosition();
-                // console.log(currentPosition);
                 point = this.targetPosition.getVector(currentPosition);
+                this.view.rotation = Math.atan2(point.y, point.x) + Math.PI / 2 + Math.PI;
                 var length = point.getLengthIsCurrentPointVector();
-                if (length < 10) {
+                if (!length || length < 10) {
                     this.activeMove = false;
-                    console.log('I came');
+                    return;
                 }
-                if (length) {
-                    currentPosition.x += this.speed * point.x / length;
-                    currentPosition.y += this.speed * point.y / length;
-                    this.setPosition(currentPosition);
-                }
+                currentPosition.x += this.speed * point.x / length;
+                currentPosition.y += this.speed * point.y / length;
+                this.setPosition(currentPosition);
             }
 
         }
 
         setPosition(currentPosition: Helper.Point) {
-            if (this.type == Server.Config.ENTITY_TYPES.PLAYER_ENTITY) {
-                console.log(this.position.x + ',' + this.position.y);
-            }
             this.position = currentPosition;
             this.view.position.x = currentPosition.x;
             this.view.position.y = currentPosition.y;

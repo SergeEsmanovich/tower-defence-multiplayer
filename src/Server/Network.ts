@@ -55,19 +55,19 @@ namespace Server {
             client.getSocket().on('message', (msg: string) => {
                 client.msg = msg;
                 // console.log(msg);
-              let  player = this.fieldController.findPlayer(client.socketId);
+                let player = this.fieldController.findPlayer(client.socketId);
 
                 player.inputCode = Number(msg.split('|')[0]);
 
                 player.calcVector(player.inputCode);
 
-                let mess = this.fieldController.createMessageForSend();
+                let mess = this.fieldController.createMessageForSend(client.socketId);
 
                 // this.io.sockets.connected[client.socketId].emit('message', 'private message for ' + client.socketId);
                 this.io.sockets.connected[client.socketId].emit('message', mess);
                 // this.io.emit('message', 'public message');
             });
-
+//TODO remove player
             client.getSocket().on('disconnect', () => {
                 this.debug('user ' + client.socketId + ' disconnected');
             });

@@ -11,7 +11,7 @@ namespace Helper {
         public y: number;
         public serverTime: number = null;
         public time: number = null;
-        public timePing:number;
+        public timePing: number;
 
         public ping() {
             return this.time - this.serverTime;
@@ -38,8 +38,13 @@ namespace Helper {
             return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
         }
 
-        public clone(){
+        public clone() {
             return JSON.parse(JSON.stringify(this));
+        }
+
+        public addVector(vector: Helper.Point) {
+            this.x += vector.x;
+            this.y += vector.y;
         }
 
 
