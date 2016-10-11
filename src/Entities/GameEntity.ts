@@ -26,28 +26,31 @@ namespace Entities {
         public stepToPoint(point: Helper.Point = null) {
             if (this.activeMove && this.targetPosition) {
                 point = this.targetPosition.getVector(this.position);
-
                 var length = point.getLengthIsCurrentPointVector();
 
                 if (length < 10) {
                     this.activeMove = false;
                 }
 
-                if(length) {
+                if (length) {
                     this.position.x += this.speed * point.x / length;
                     this.position.y += this.speed * point.y / length;
                 }
-
 
             }
         }
 
         public setPosition(position: Helper.Point) {
-            this.position = position;
+            this.position = new Helper.Point(position.x, position.y);
+        }
+
+        public getPosition(){
+            return new Helper.Point(this.position.x, this.position.y);
         }
 
         getPositionString(): string {
-            return ~~this.position.x + ',' + ~~this.position.y;
+          let point = this.getPosition();
+            return ~~point.x + ',' + ~~point.y;
         }
 
     }

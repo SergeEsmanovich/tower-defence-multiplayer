@@ -33,6 +33,7 @@ namespace Client {
         public stepToPoint(point: Helper.Point = null) {
             if (this.activeMove && this.targetPosition) {
                 let currentPosition = this.getPosition();
+                // console.log(currentPosition);
                 point = this.targetPosition.getVector(currentPosition);
                 var length = point.getLengthIsCurrentPointVector();
                 if (length < 10) {
@@ -49,6 +50,9 @@ namespace Client {
         }
 
         setPosition(currentPosition: Helper.Point) {
+            if (this.type == Server.Config.ENTITY_TYPES.PLAYER_ENTITY) {
+                console.log(this.position.x + ',' + this.position.y);
+            }
             this.position = currentPosition;
             this.view.position.x = currentPosition.x;
             this.view.position.y = currentPosition.y;

@@ -20,7 +20,7 @@ namespace Client {
             this.input.attachEvents();
             setInterval(()=> {
                 this.sendMessage(this.input.constructInputBitmask().toString() + '|' + new Date().getTime());
-            }, Math.round(1000));
+            }, Math.round(1000/30));
 
             this.listener();
         }

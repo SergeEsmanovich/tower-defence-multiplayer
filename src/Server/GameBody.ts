@@ -10,9 +10,9 @@ namespace Server {
                 this.update();
             }, 5);
 
-            this.interval = setInterval(()=> {
-                this.IINPC();
-            }, 10000);
+            // this.interval = setInterval(()=> {
+            //     this.IINPC();
+            // }, 10000);
 
         }
 
@@ -26,6 +26,10 @@ namespace Server {
         }
 
         public update() {
+            this.fieldController.players.forEach((entity: Entities.GameEntity)=> {
+                entity.stepToPoint();
+            });
+
             this.fieldController.entities.forEach((entity: Entities.GameEntity)=> {
                 entity.stepToPoint();
             });

@@ -14,8 +14,16 @@ namespace Controller {
             this.players.push(player);
         }
 
-        public findPlayer(){
+        public findPlayer(playerId: string) {
 
+            let playerFounded: Entities.PlayerEntity = null;
+            this.players.forEach((player: Entities.PlayerEntity)=> {
+                if (player.client.socketId == playerId) {
+                    playerFounded = player;
+                }
+            });
+
+            return playerFounded;
         }
 
         public addEntity(entity: Entities.GameEntity) {
@@ -27,6 +35,7 @@ namespace Controller {
 
             this.players.forEach((player)=> {
                 message += player.id + ',' + player.type + ',' + player.getPositionString();
+                console.log(player.getPositionString());
             });
 
 

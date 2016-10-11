@@ -67,6 +67,11 @@ namespace Conroller {
                 } else {
                     this.entityViews[entityId].targetPosition = serverEntityDesc.position;
                     this.entityViews[entityId].activeMove = true;
+
+                    if (this.entityViews[entityId].type == Server.Config.ENTITY_TYPES.PLAYER_ENTITY) {
+                        console.log(this.entityViews[entityId].position.x + ',' + this.entityViews[entityId].position.y);
+                    }
+
                 }
 
 

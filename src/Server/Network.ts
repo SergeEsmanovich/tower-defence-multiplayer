@@ -54,7 +54,12 @@ namespace Server {
 
             client.getSocket().on('message', (msg: string) => {
                 client.msg = msg;
-                console.log(msg);
+                // console.log(msg);
+              let  player = this.fieldController.findPlayer(client.socketId);
+
+                player.inputCode = Number(msg.split('|')[0]);
+
+                player.calcVector(player.inputCode);
 
                 let mess = this.fieldController.createMessageForSend();
 
@@ -68,27 +73,6 @@ namespace Server {
             });
 
         }
-
-        // private getPosition(temp: any) {
-        //     let input = new Helper.Input();
-        //     input.deconstructInputBitmask(Number(temp[0]));
-        //     if (input.isLeft()) {
-        //         this.player.position.x -= this.player.speed;
-        //     }
-        //     if (input.isRight()) {
-        //         this.player.position.x += this.player.speed;
-        //     }
-        //     if (input.isUp()) {
-        //         this.player.position.y -= this.player.speed;
-        //     }
-        //     if (input.isDown()) {
-        //         this.player.position.y += this.player.speed;
-        //     }
-        //
-        //     this.id++;
-        //     return this.player.position.x + '|' + this.player.position.y + '|' + temp[1] + '|' + this.id;
-        // }
-
 
         private debug(msg: string) {
             if (Server.Config.DEBUG_MOD) {
