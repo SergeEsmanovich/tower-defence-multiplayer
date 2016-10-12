@@ -9,9 +9,7 @@ namespace Client {
         public stage: PIXI.Container;
         public view: any;
         public loader: any;
-        public scene: Client.GameScene;
         public speed: number = 3;
-        public world: PIXI.Container;
 
 
         public initialize() {
@@ -20,10 +18,7 @@ namespace Client {
             this.view.position.y = 0;
             this.view.anchor.x = 0.5;
             this.view.anchor.y = 0.5;
-        }
-
-        public setWorld(world: PIXI.Container) {
-            this.world = world;
+            this.stage.addChild(this.view);
         }
 
         public setStage(stage: PIXI.Container) {

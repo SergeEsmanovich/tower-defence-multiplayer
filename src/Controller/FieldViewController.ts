@@ -2,17 +2,16 @@
 namespace Conroller {
     export class FieldViewController {
 
-
-        public player: Client.GameEntityView;
-
         public scene: Client.GameScene;
-
-
         public worldContainer: PIXI.Container;
         public entities: any = {};
         public ids: number[] = [];
         public entityViews: any = {};
 
+        /**
+         * Create GameEntity based on message from server
+         * @param msg
+         */
         public parseMessageFromServer(msg: string) {
             let data: any[] = msg.split('|');
             this.entities = {};
@@ -28,56 +27,55 @@ namespace Conroller {
                 this.entities[entityParams[0]] = entity;
                 this.ids.push(Number(entityParams[0]));
             });
-            this.sincPosition();
+            this.syncPosition();
         }
 
-        public sincPosition() {
+        public syncPosition() {
             this.ids.forEach((entityId)=> {
                 let serverEntityDesc = this.entities[entityId];
-                let entityView: Client.GameEntityView = null;
 
                 if (!this.entityViews[entityId]) {
 
                     if (serverEntityDesc.type != Server.Config.ENTITY_TYPES.CANDY_ENTITY) {
-                        entityView = new Client.GameEntityView();
-                        entityView.id = serverEntityDesc.id;
-                        entityView.type = serverEntityDesc.type;
-                        entityView.setName('bunny');
-                        entityView.setStage(this.worldContainer);
-                        entityView.initialize();
-                        entityView.setScale(0.5);
-                        entityView.setPosition(serverEntityDesc.position);
-                        entityView.setWorld(this.worldContainer);
-                        this.worldContainer.addChild(entityView.view);
+                        /**
+                         * Create Player Entity
+                         */
+                        this.entityViews[entityId] = this.createEntityView('bunny',serverEntityDesc);
+                        this.entityViews[entityId].setScale(0.5);
 
-                        this.entityViews[entityId] = entityView;
                         if (serverEntityDesc.type == Server.Config.ENTITY_TYPES.PLAYER_ENTITY) {
+                            /**
+                             * Set Current Player
+                             */
                             this.scene.setPlayer(this.entityViews[entityId]);
                         }
 
                     } else {
-                        entityView = new Client.GameEntityView();
-                        entityView.id = serverEntityDesc.id;
-                        entityView.type = serverEntityDesc.type;
-                        entityView.setName('tad');
-                        entityView.setStage(this.worldContainer);
-                        entityView.initialize();
-                        entityView.setPosition(serverEntityDesc.position);
-                        this.worldContainer.addChild(entityView.view);
-                        this.entityViews[entityId] = entityView;
+                        this.entityViews[entityId] = this.createEntityView('tad',serverEntityDesc);
                     }
                 } else {
+
+                    /**
+                     * Begin move
+                     */
                     this.entityViews[entityId].targetPosition = serverEntityDesc.position;
                     this.entityViews[entityId].activeMove = true;
-
-                    // if (this.entityViews[entityId].type == Server.Config.ENTITY_TYPES.PLAYER_ENTITY) {
-                    //     console.log(this.entityViews[entityId].position.x + ',' + this.entityViews[entityId].position.y);
-                    // }
-
                 }
 
 
             });
+        }
+
+        public createEntityView(name: string, gameEntity: any) {
+            let entityView = new Client.GameEntityView();
+            entityView.id = gameEntity.id;
+            entityView.type = gameEntity.type;
+            entityView.setName(name);
+            entityView.setStage(this.worldContainer);
+            entityView.initialize();
+            entityView.setPosition(gameEntity.position);
+
+            return entityView;
         }
 
         delegateWorldContainer(world: PIXI.Container) {
