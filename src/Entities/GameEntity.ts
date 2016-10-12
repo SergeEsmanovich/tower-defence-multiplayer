@@ -1,11 +1,13 @@
 /// <reference path="../../src/Helper/Point.ts" />
 /// <reference path="../../src/Server/Config.ts" />
+/// <reference path="../../src/Helper/Collection.ts" />
 namespace Entities {
-    export class GameEntity {
+    export class GameEntity implements Helper.IKey{
+
         constructor() {
             this.position = new Helper.Point();
         }
-
+        key: string;
         public id: number;
         public name: string;
         public type: number = Server.Config.ENTITY_TYPES.CANDY_ENTITY;

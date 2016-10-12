@@ -96,19 +96,15 @@ namespace Client {
                 this.focusToPoint(focusPoint);
             }
 
-            this.fieldViewController.ids.forEach((entityId: number)=> {
-                this.fieldViewController.entityViews[entityId].stepToPoint();
+            this.fieldViewController.entityViews.forEach((entityView: Client.GameEntityView)=> {
+                entityView.stepToPoint();
             });
             this.renderer.render(this.stage);
         };
 
         public createEntityView(stage: PIXI.Container, name: string) {
             if (PIXI.loader.loading == false) {
-                // let entityView = new Client.GameEntityView();
-                // entityView.setStage(stage);
-                // entityView.setName(name);
-                // entityView.initialize();
-                // return entityView;
+
             }
         }
 
@@ -122,62 +118,6 @@ namespace Client {
             this.stage.removeChild(anEntityView);
         };
 
-        // public updateBunnyPosition(msg: string = null) {
-        //
-        //     if (msg) {
-        //         let point = new Helper.Point();
-        //         let temp: any = msg.split('|');
-        //         point.x = temp[0] * 1;
-        //         point.y = temp[1] * 1;
-        //         point.serverTime = temp[2] * 1;
-        //         point.id = temp[3] * 1;
-        //         point.timePing = point.ping();
-        //
-        //         if (point.timePing.toString() == 'NaN') {
-        //             console.log(point);
-        //         }
-        //
-        //         this.calculateDeltaPing(point.timePing);
-        //
-        //         this.bunnyBuffer.push(point);
-        //         // console.log(this.bunnyBuffer.length);
-        //     }
-        //
-        //     if (this.bunnyBuffer.length > 4) {
-        //
-        //         let currentPosition = this.bunny.getPosition();
-        //         let nextPosition = this.bunnyBuffer.shift();
-        //         this.bunny.targetPosition = nextPosition;
-        //         let vec = nextPosition.getVector(currentPosition);
-        //         this.bunny.view.rotation = Math.atan2(vec.y, vec.x) + Math.PI / 2 + Math.PI;
-        //         let length = currentPosition.getLengthToPoint(nextPosition);
-        //
-        //         // console.log(this.deltaPing.ping);
-        //         // console.log(length);
-        //         // console.log(nextPosition.ping());
-        //         //Может нужно делить на количество кадров
-        //         this.bunny.speed = length / 8;
-        //         // console.log(this.deltaPing.ping);
-        //
-        //         // if (this.bunny.activeMove === true) {
-        //         //     console.log('very sorry I didn\'t come');
-        //         // }
-        //         if (length > 10) {
-        //             this.bunny.activeMove = true;
-        //         }
-        //
-        //     }
-        //
-        //
-        // }
-
-        // public updateTadPosition(msg: any) {
-        //     // this.tad.setPosition(new Helper.Point());
-        //     if (this.bunnyBuffer.length > 1) {
-        //         let point = new Helper.Point(this.bunnyBuffer[this.bunnyBuffer.length - 1].x, this.bunnyBuffer[this.bunnyBuffer.length - 1].y);
-        //         this.tad.setPosition(point);
-        //     }
-        // }
 
         public calculateDeltaPing(timePing: number) {
             this.deltaPing.delta += timePing;

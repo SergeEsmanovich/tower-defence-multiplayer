@@ -53,6 +53,7 @@ namespace Server {
                 wall.position.x = Helper.Core.getRandomInt(-1000, 1000);
                 wall.position.y = Helper.Core.getRandomInt(-1000, 1000);
                 wall.id = this.fieldController.getNextEntityId();
+                wall.key = wall.id.toString();
                 this.fieldController.addEntity(wall);
             }
         }

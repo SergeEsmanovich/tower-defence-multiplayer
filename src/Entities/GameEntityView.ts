@@ -1,6 +1,7 @@
 /// <reference path="GameEntity" />
+/// <reference path="../../src/Helper/Collection.ts" />
 namespace Client {
-    export class GameEntityView extends Entities.GameEntity {
+    export class GameEntityView extends Entities.GameEntity{
         constructor() {
             super();
             this.loader = PIXI.loader;
@@ -58,6 +59,10 @@ namespace Client {
         setScale(number: number) {
             this.view.scale.x = number;
             this.view.scale.y = number;
+        }
+
+        setTargetPosition(point:Helper.Point){
+            this.targetPosition = point;
         }
 
 
