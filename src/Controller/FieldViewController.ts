@@ -31,7 +31,6 @@ namespace Conroller {
         }
 
         public syncPosition() {
-
             this.entities.forEach((entity: Entities.GameEntity)=> {
 
                 if (!this.entityViews.get(entity.key)) {
@@ -69,9 +68,28 @@ namespace Conroller {
                     //     console.log(entityView);
                     // }
                 }
+            });
+
+            this.entityViews.forEach((entityView: Client.GameEntityView)=> {
+                let entity = this.entities.get(entityView.key);
+                if (!entity) {
+                    entityView.notFoundedCount += 1;
+                } else {
+                    entityView.notFoundedCount = 0;
+                }
+
+                // console.log(entityView.notFoundedCount);
+
+                if (entityView.notFoundedCount > 10) {
+                    entityView.stage.removeChild(entityView.view);
+                    this.entityViews.remove(entityView.key)
+                }
+
 
 
             });
+
+
         }
 
         public createEntityView(name: string, gameEntity: Entities.GameEntity) {
@@ -81,7 +99,7 @@ namespace Conroller {
             entityView.type = gameEntity.type;
             if (gameEntity.type == Server.Config.ENTITY_TYPES.PLAYER_ENTITY) {
                 entityView.delta = new Date().getTime() - gameEntity.time;
-                console.log(entityView.delta);
+                // console.log(entityView.delta);
             }
 
             entityView.time = gameEntity.time;

@@ -7,7 +7,7 @@ namespace Entities {
         inputCode: number;
         clientTime: number;
         deltaTime: number;
-
+        public notFoundedCount: number = 0;
         calcVector(i: number): any {
             return undefined;
         }

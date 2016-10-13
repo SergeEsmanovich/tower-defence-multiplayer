@@ -23,12 +23,7 @@ namespace Server {
         public alpha: number = 0;
         public fieldController: Controller.FieldController;
 
-
-        public id: number = 0;
-
         public logMessages: string[] = [];
-
-        public test: any = [];
 
         private initialize() {
             this.io = require('socket.io').listen(this.http);
@@ -72,6 +67,7 @@ namespace Server {
 //TODO remove player
             client.getSocket().on('disconnect', () => {
                 this.debug('user ' + client.socketId + ' disconnected');
+                this.fieldController.players.remove(client.socketId);
             });
 
         }

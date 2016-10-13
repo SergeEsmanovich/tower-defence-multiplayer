@@ -37,5 +37,9 @@ namespace Helper {
             this.array.splice(this.keyToIndex[key], 1);
             delete this.keyToIndex[key];
         }
+        count(){
+            return this.array.length;
+        }
+
     }
 }
