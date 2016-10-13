@@ -11,6 +11,8 @@ namespace Client {
         public view: any;
         public loader: any;
         public speed: number = 3;
+        public time:number;
+        public delta:number;
 
 
         public initialize() {

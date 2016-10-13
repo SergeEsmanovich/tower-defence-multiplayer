@@ -7,6 +7,8 @@ namespace Entities {
         constructor() {
             this.position = new Helper.Point();
         }
+
+        public id: any;
         key: string;
         public id: number;
         public name: string;
@@ -18,6 +20,8 @@ namespace Entities {
         public targetPosition: Helper.Point = null;
 
         public activeMove = false;
+
+        public time:number;
 
 
         public setName(name: string) {
