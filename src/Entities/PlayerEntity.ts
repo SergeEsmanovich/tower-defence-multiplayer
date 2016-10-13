@@ -18,6 +18,8 @@ namespace Entities {
 
         public type = Server.Config.ENTITY_TYPES.PLAYER_ENTITY;
 
+        public clientTime: number;
+
         setClient(client: Controller.Client) {
             this.client = client;
         }

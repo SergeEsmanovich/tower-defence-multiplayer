@@ -54,16 +54,17 @@ namespace Server {
 
             client.getSocket().on('message', (msg: string) => {
                 client.msg = msg;
-                // console.log(msg);
                 let player = this.fieldController.findPlayer(client.socketId);
 
-                player.inputCode = Number(msg.split('|')[0]);
+                let clientData = msg.split(',');
+
+                player.inputCode = Number(clientData[0]);
+                player.clientTime = Number(clientData[1]);
 
                 player.calcVector(player.inputCode);
 
                 let mess = this.fieldController.createMessageForSend(client.socketId);
 
-                // this.io.sockets.connected[client.socketId].emit('message', 'private message for ' + client.socketId);
                 this.io.sockets.connected[client.socketId].emit('message', mess);
                 // this.io.emit('message', 'public message');
             });

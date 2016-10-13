@@ -37,7 +37,7 @@ namespace Controller {
                 if (player.client.socketId != id) {
                     message += player.id + ',' + Server.Config.ENTITY_TYPES.OTHER_PLAYER_ENTITY + ',' + player.getPositionString() + '|';
                 } else {
-                    message += player.id + ',' + player.type + ',' + player.getPositionString() + '|';
+                    message += player.id + ',' + player.type + ',' + player.getPositionString() + ',' + player.clientTime + '|';
                 }
             });
 
