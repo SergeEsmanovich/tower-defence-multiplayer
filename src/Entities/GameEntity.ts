@@ -2,14 +2,21 @@
 /// <reference path="../../src/Server/Config.ts" />
 /// <reference path="../../src/Helper/Collection.ts" />
 namespace Entities {
-    export class GameEntity implements Helper.IKey{
+    export class GameEntity implements Helper.IKey {
+
+        inputCode: number;
+        clientTime: number;
+        deltaTime: number;
+
+        calcVector(i: number): any {
+            return undefined;
+        }
 
         constructor() {
             this.position = new Helper.Point();
         }
 
-        public id: any;
-        key: string;
+        public key: string;
         public id: number;
         public name: string;
         public type: number = Server.Config.ENTITY_TYPES.CANDY_ENTITY;
@@ -21,7 +28,7 @@ namespace Entities {
 
         public activeMove = false;
 
-        public time:number;
+        public time: number;
 
 
         public setName(name: string) {
@@ -50,13 +57,16 @@ namespace Entities {
             this.position = new Helper.Point(position.x, position.y);
         }
 
-        public getPosition(){
+        public getPosition() {
             return new Helper.Point(this.position.x, this.position.y);
         }
 
         getPositionString(): string {
-          let point = this.getPosition();
+            let point = this.getPosition();
             return ~~point.x + ',' + ~~point.y;
+        }
+
+        setTargetPosition(point: Helper.Point) {
         }
 
     }

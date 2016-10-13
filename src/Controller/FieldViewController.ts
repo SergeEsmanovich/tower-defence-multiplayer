@@ -24,11 +24,7 @@ namespace Conroller {
                 entity.key = entityParams[0];
                 entity.type = Number(entityParams[1]);
                 entity.setPosition(new Helper.Point(~~Number(entityParams[2]), ~~Number(entityParams[3])));
-
                 entity.time = Number(entityParams[4]);
-
-                this.entities[entityParams[0]] = entity;
-                this.ids.push(Number(entityParams[0]));
                 this.entities.add(entity);
             });
             this.syncPosition();
@@ -44,8 +40,6 @@ namespace Conroller {
                         /**
                          * Create Player Entity
                          */
-                        this.entityViews[entityId] = this.createEntityView('bunny', serverEntityDesc);
-                        this.entityViews[entityId].setScale(0.5);
                         let entityView = this.createEntityView('bunny', entity);
                         entityView.setScale(0.5);
                         this.entityViews.add(entityView);
@@ -55,12 +49,10 @@ namespace Conroller {
                              * Set Current Player
                              */
 
-                            this.scene.setPlayer(this.entityViews[entityId]);
                             this.scene.setPlayer(entityView);
                         }
 
                     } else {
-                        this.entityViews[entityId] = this.createEntityView('tad', serverEntityDesc);
                         let entityView = this.createEntityView('tad', entity);
                         this.entityViews.add(entityView);
                     }
@@ -76,19 +68,16 @@ namespace Conroller {
                     // if(entityView.type == Server.Config.ENTITY_TYPES.PLAYER_ENTITY){
                     //     console.log(entityView);
                     // }
-                    this.entityViews[entityId].targetPosition = serverEntityDesc.position;
-                    this.entityViews[entityId].activeMove = true;
-
                 }
 
-                }
+
             });
         }
 
-        public createEntityView(name: string, gameEntity: any) {
+        public createEntityView(name: string, gameEntity: Entities.GameEntity) {
             let entityView = new Client.GameEntityView();
             entityView.id = gameEntity.id;
-            entityView.key = gameEntity.id;
+            entityView.key = gameEntity.id.toString();
             entityView.type = gameEntity.type;
             if (gameEntity.type == Server.Config.ENTITY_TYPES.PLAYER_ENTITY) {
                 entityView.delta = new Date().getTime() - gameEntity.time;

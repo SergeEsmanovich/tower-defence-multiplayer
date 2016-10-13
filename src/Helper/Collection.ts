@@ -1,6 +1,12 @@
 namespace Helper {
     export interface IKey {
         key: string;
+        inputCode:number;
+        clientTime:number;
+        deltaTime:number;
+        calcVector(i:number):any;
+        setTargetPosition(point:Helper.Point):any;
+        activeMove:boolean;
     }
 
     interface ICollection<T extends IKey> {
