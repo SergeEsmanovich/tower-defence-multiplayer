@@ -6,7 +6,7 @@ namespace Entities {
             this.position = new Helper.Point();
         }
 
-        public id: number;
+        public id: any;
         public name: string;
         public type: number = Server.Config.ENTITY_TYPES.CANDY_ENTITY;
         public position: Helper.Point;
@@ -16,6 +16,8 @@ namespace Entities {
         public targetPosition: Helper.Point = null;
 
         public activeMove = false;
+
+        public time:number;
 
 
         public setName(name: string) {

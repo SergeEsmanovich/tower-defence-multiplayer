@@ -7,6 +7,8 @@ namespace Controller {
         public players: Entities.PlayerEntity[] = [];
         private NextEntityId = 1;
 
+        public playerTime: number;
+
         public addPlayer(client: Controller.Client) {
             let player = new Entities.PlayerEntity();
             player.id = this.getNextEntityId();
@@ -35,15 +37,16 @@ namespace Controller {
 
             this.players.forEach((player)=> {
                 if (player.client.socketId != id) {
-                    message += player.id + ',' + Server.Config.ENTITY_TYPES.OTHER_PLAYER_ENTITY + ',' + player.getPositionString() + '|';
+                    this.playerTime = player.clientTime;
+                    message += player.id + ',' + Server.Config.ENTITY_TYPES.OTHER_PLAYER_ENTITY + ',' + player.getPositionString() + ',' + (new Date().getTime() - this.playerTime) + '|';
                 } else {
-                    message += player.id + ',' + player.type + ',' + player.getPositionString() + ',' + player.clientTime + '|';
+                    message += player.id + ',' + player.type + ',' + player.getPositionString() + ',' + this.playerTime + '|';
                 }
             });
 
 
             this.entities.forEach((entity: Entities.GameEntity, key: number)=> {
-                message += entity.id + ',' + entity.type + ',' + entity.getPositionString();
+                message += entity.id + ',' + entity.type + ',' + entity.getPositionString() + ',' + (new Date().getTime() - this.playerTime);
                 if (key != this.entities.length - 1) {
                     message += '|';
                 }

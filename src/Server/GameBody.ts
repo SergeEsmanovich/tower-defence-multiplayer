@@ -10,9 +10,9 @@ namespace Server {
                 this.update();
             }, 5);
 
-            // this.interval = setInterval(()=> {
-            //     this.IINPC();
-            // }, 10000);
+            this.interval = setInterval(()=> {
+                this.IINPC();
+            }, 10000);
 
         }
 

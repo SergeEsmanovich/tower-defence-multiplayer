@@ -24,6 +24,8 @@ namespace Conroller {
 
                 entity.setPosition(new Helper.Point(~~Number(entityParams[2]), ~~Number(entityParams[3])));
 
+                entity.time = Number(entityParams[4]);
+
                 this.entities[entityParams[0]] = entity;
                 this.ids.push(Number(entityParams[0]));
             });
@@ -40,18 +42,19 @@ namespace Conroller {
                         /**
                          * Create Player Entity
                          */
-                        this.entityViews[entityId] = this.createEntityView('bunny',serverEntityDesc);
+                        this.entityViews[entityId] = this.createEntityView('bunny', serverEntityDesc);
                         this.entityViews[entityId].setScale(0.5);
 
                         if (serverEntityDesc.type == Server.Config.ENTITY_TYPES.PLAYER_ENTITY) {
                             /**
                              * Set Current Player
                              */
+
                             this.scene.setPlayer(this.entityViews[entityId]);
                         }
 
                     } else {
-                        this.entityViews[entityId] = this.createEntityView('tad',serverEntityDesc);
+                        this.entityViews[entityId] = this.createEntityView('tad', serverEntityDesc);
                     }
                 } else {
 
@@ -60,6 +63,7 @@ namespace Conroller {
                      */
                     this.entityViews[entityId].targetPosition = serverEntityDesc.position;
                     this.entityViews[entityId].activeMove = true;
+
                 }
 
 
@@ -70,6 +74,12 @@ namespace Conroller {
             let entityView = new Client.GameEntityView();
             entityView.id = gameEntity.id;
             entityView.type = gameEntity.type;
+            if (gameEntity.type == Server.Config.ENTITY_TYPES.PLAYER_ENTITY) {
+                entityView.delta = new Date().getTime() - gameEntity.time;
+                console.log(entityView.delta);
+            }
+
+            entityView.time = gameEntity.time;
             entityView.setName(name);
             entityView.setStage(this.worldContainer);
             entityView.initialize();

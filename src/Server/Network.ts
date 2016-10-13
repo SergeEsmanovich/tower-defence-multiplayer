@@ -60,6 +60,7 @@ namespace Server {
 
                 player.inputCode = Number(clientData[0]);
                 player.clientTime = Number(clientData[1]);
+                player.deltaTime = new Date().getTime() - player.clientTime;
 
                 player.calcVector(player.inputCode);
 
