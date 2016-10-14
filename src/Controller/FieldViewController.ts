@@ -1,5 +1,6 @@
 /// <reference path="../../src/Entities/GameEntity.ts" />
 /// <reference path="../../src/Helper/Collection.ts" />
+/// <reference path="../../src/Entities/PlayerEntityView.ts" />
 namespace Conroller {
     export class FieldViewController {
 
@@ -39,8 +40,8 @@ namespace Conroller {
                         /**
                          * Create Player Entity
                          */
-                        let entityView = this.createEntityView('bunny', entity);
-                        entityView.setScale(0.5);
+                        let entityView = this.createPlayerView('player', entity);
+
                         this.entityViews.add(entityView);
 
                         if (entity.type == Server.Config.ENTITY_TYPES.PLAYER_ENTITY) {
@@ -64,9 +65,11 @@ namespace Conroller {
                     let entityView = this.entityViews.get(entity.key);
                     entityView.setTargetPosition(entity.position);
                     entityView.activeMove = true;
-                    // if(entityView.type == Server.Config.ENTITY_TYPES.PLAYER_ENTITY){
-                    //     console.log(entityView);
-                    // }
+                    entityView.time = entity.time;
+                    if (entityView.type == Server.Config.ENTITY_TYPES.PLAYER_ENTITY) {
+                        entityView.deltaTime = new Date().getTime() - entity.time;
+                        this.scene.gameInfo.setPing(entityView.deltaTime.toString());
+                    }
                 }
             });
 
@@ -84,7 +87,6 @@ namespace Conroller {
                     entityView.stage.removeChild(entityView.view);
                     this.entityViews.remove(entityView.key)
                 }
-
 
 
             });
@@ -108,6 +110,19 @@ namespace Conroller {
             entityView.initialize();
             entityView.setPosition(gameEntity.position);
 
+            return entityView;
+        }
+
+        public createPlayerView(name: string, gameEntity: Entities.GameEntity) {
+            let entityView = new Client.PlayerEntityView();
+            entityView.id = gameEntity.id;
+            entityView.key = gameEntity.id.toString();
+            entityView.type = gameEntity.type;
+            entityView.time = gameEntity.time;
+            entityView.setName(name);
+            entityView.setStage(this.worldContainer);
+            entityView.initialize();
+            entityView.setPosition(gameEntity.position);
             return entityView;
         }
 

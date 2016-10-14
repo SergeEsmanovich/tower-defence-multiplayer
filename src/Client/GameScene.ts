@@ -5,9 +5,12 @@ namespace Client {
     export class GameScene {
 
         constructor() {
-            this.fieldViewController.setScene(this);
+
             this.resizeFullScreen();
-            this.renderer = PIXI.autoDetectRenderer(this.screen.width, this.screen.health, {autoResize: true}, false);
+            this.renderer = PIXI.autoDetectRenderer(this.screen.width, this.screen.health, {
+                transparent: true,
+                autoResize: true
+            }, false);
             $('#gameContainer').append(this.renderer.view);
 
             this.stage = new PIXI.Container();
@@ -20,6 +23,7 @@ namespace Client {
             this.world.position.x = 800 * 0.5;
             this.world.position.y = 600 * 0.5;
 
+            this.fieldViewController.setScene(this);
             this.fieldViewController.delegateWorldContainer(this.world);
             this.update();
         }

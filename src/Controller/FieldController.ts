@@ -32,8 +32,8 @@ namespace Controller {
             let message: string = '';
 
             this.players.forEach((player: Entities.PlayerEntity)=> {
+                this.playerTime = player.clientTime;
                 if (player.client.socketId != id) {
-                    this.playerTime = player.clientTime;
                     message += player.id + ',' + Server.Config.ENTITY_TYPES.OTHER_PLAYER_ENTITY + ',' + player.getPositionString() + ',' + (new Date().getTime() - this.playerTime) + '|';
                 } else {
                     message += player.id + ',' + player.type + ',' + player.getPositionString() + ',' + this.playerTime + '|';
@@ -42,7 +42,7 @@ namespace Controller {
 
 
             this.entities.forEach((entity: Entities.GameEntity)=> {
-                message += entity.id + ',' + entity.type + ',' + entity.getPositionString() + ',' + (new Date().getTime() - this.playerTime)+ '|';
+                message += entity.id + ',' + entity.type + ',' + entity.getPositionString() + ',' + (new Date().getTime() - this.playerTime) + '|';
             });
             message = message.slice(0, -1);
             return message;

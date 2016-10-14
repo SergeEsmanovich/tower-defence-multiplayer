@@ -7,6 +7,8 @@ namespace Helper {
         calcVector(i:number):any;
         setTargetPosition(point:Helper.Point):any;
         activeMove:boolean;
+        type:number;
+        time:number;
     }
 
     interface ICollection<T extends IKey> {
