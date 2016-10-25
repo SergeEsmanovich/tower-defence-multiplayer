@@ -12,8 +12,8 @@ namespace Client {
 
         public setupPixi() {
             this.loader = PIXI.loader;
-            this.loader.add('player', "player.json");
-            this.loader.add('tad', "greenParticle.png");
+            this.loader.add('player', "assets/player.json");
+            this.loader.add('tad', "assets/greenParticle.png");
             this.loader.once('complete', Client.PixiLoader.onAssetsLoaded);
             this.loader.load();
         };

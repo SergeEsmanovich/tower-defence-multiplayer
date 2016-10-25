@@ -39,22 +39,18 @@ namespace Entities {
             this.activeMove = false;
             this.targetVector = new Helper.Point();
             if (this.input.isLeft()) {
-                console.log('left');
                 this.targetVector.addVector(new Helper.Point(-1, 0));
                 this.activeMove = true;
             }
             if (this.input.isRight()) {
-                console.log('right');
                 this.targetVector.addVector(new Helper.Point(1, 0));
                 this.activeMove = true;
             }
             if (this.input.isUp()) {
-                console.log('up');
                 this.targetVector.addVector(new Helper.Point(0, -1));
                 this.activeMove = true;
             }
             if (this.input.isDown()) {
-                console.log('down');
                 this.targetVector.addVector(new Helper.Point(0, 1));
                 this.activeMove = true;
             }

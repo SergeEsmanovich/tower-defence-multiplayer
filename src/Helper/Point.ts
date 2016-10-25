@@ -47,6 +47,11 @@ namespace Helper {
             this.y += vector.y;
         }
 
+        public multiplyVector(scalar: number) {
+            this.x *= scalar;
+            this.y *= scalar;
+        }
+
 
     }
 

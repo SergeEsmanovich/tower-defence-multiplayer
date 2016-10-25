@@ -1,6 +1,7 @@
 /// <reference path="../../src/Entities/GameEntity.ts" />
 /// <reference path="../../src/Entities/PlayerEntity.ts" />
 /// <reference path="../../src/Helper/Collection.ts" />
+/// <reference path="../../src/Helper/Collision.ts" />
 namespace Controller {
     import PlayerEntity = Entities.PlayerEntity;
     export class FieldController {
@@ -8,6 +9,9 @@ namespace Controller {
         public entities = new Helper.Collection();
 
         public players = new Helper.Collection();
+
+        public collisionContainer = new Helper.CollisionContainer();
+
         private NextEntityId = 1;
 
         public playerTime: number;
@@ -26,6 +30,7 @@ namespace Controller {
 
         public addEntity(entity: Entities.GameEntity) {
             this.entities.add(entity);
+            this.collisionContainer.add(entity);
         }
 
         public createMessageForSend(id: string) {

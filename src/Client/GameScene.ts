@@ -54,7 +54,7 @@ namespace Client {
         public stage: PIXI.Container;
         public renderer: PIXI.WebGLRenderer | PIXI.CanvasRenderer;
 
-        public player: Client.GameEntityView = null;
+        public player: Client.PlayerEntityView = null;
 
         public update() {
             requestAnimationFrame(this.update.bind(this));

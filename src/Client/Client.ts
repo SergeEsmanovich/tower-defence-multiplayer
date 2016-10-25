@@ -14,13 +14,15 @@ namespace Client {
         public input: Helper.Input;
 
         private initialize() {
-            this.socket = io();//'http://194.135.88.82:3000'
+            let url = Server.Config.GET_URL();
+
+            this.socket = io(url);//'http://194.135.88.82:3000'
 
             this.input = new Helper.Input();
             this.input.attachEvents();
             setInterval(()=> {
                 this.sendMessage(this.input.constructInputBitmask().toString() + ',' + new Date().getTime());
-            }, Math.round(1000/30));
+            }, Math.round(1000 / 30));
 
             this.listener();
         }
@@ -31,7 +33,7 @@ namespace Client {
 
         private listener() {
             this.socket.on('message', function (msg: string) {
-                if(Client.PixiLoader.game) {
+                if (Client.PixiLoader.game) {
                     Client.PixiLoader.game.updateWorld(msg);
                 }
 

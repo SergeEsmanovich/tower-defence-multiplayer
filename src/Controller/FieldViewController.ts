@@ -8,6 +8,11 @@ namespace Conroller {
         public worldContainer: PIXI.Container;
         public entities = new Helper.Collection();
         public entityViews = new Helper.Collection();
+        public postProcessing = false;
+
+        public mask: PIXI.Sprite;
+
+
 
         /**
          * Create GameEntity based on message from server
@@ -28,7 +33,22 @@ namespace Conroller {
                 entity.time = Number(entityParams[4]);
                 this.entities.add(entity);
             });
+
             this.syncPosition();
+            this.postProcess();
+
+        }
+
+        public postProcess() {
+            if (!this.postProcessing) {
+                // this.postProcessing = true;
+                // this.mask = PIXI.Sprite.fromImage('light.png');
+                // this.mask.position = new PIXI.Point(0, 0);
+                // this.mask.anchor.set(0.5);
+                // this.mask.scale.set(10);
+                // this.worldContainer.addChild(this.mask);
+                // this.scene.player.setFlashLight(this.mask);
+            }
         }
 
         public syncPosition() {

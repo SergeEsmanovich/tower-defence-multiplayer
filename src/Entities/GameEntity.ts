@@ -8,6 +8,7 @@ namespace Entities {
         clientTime: number;
         deltaTime: number;
         public notFoundedCount: number = 0;
+
         calcVector(i: number): any {
             return undefined;
         }
@@ -30,25 +31,39 @@ namespace Entities {
 
         public time: number;
 
+        public velocityVector: Helper.Point = new Helper.Point();
 
         public setName(name: string) {
             this.name = name;
         }
 
+        public radius = 16;
+
+        public collisionDetected = false;
+
+        public onCollision(entity: Entities.GameEntity): any {
+            this.collisionDetected = true;
+            let normal = this.position.getVector(entity.position);
+            this.velocityVector.x += normal.x;
+            this.velocityVector.y += normal.y;
+            // this.velocityVector.multiplyVector(-1);
+            this.collisionDetected = false;
+
+        }
 
         public stepToPoint(point: Helper.Point = null) {
-            if (this.activeMove && this.targetPosition) {
-                point = this.targetPosition.getVector(this.position);
+            if (this.activeMove && !this.collisionDetected) {
+                point = this.velocityVector;
                 var length = point.getLengthIsCurrentPointVector();
 
-                if (length < 10) {
-                    this.activeMove = false;
-                }
+                // if (length < 10) {
+                //     this.activeMove = false;
+                // }
 
-                if (length) {
-                    this.position.x += this.speed * point.x / length;
-                    this.position.y += this.speed * point.y / length;
-                }
+                // if (length) {
+                this.position.x += this.speed * point.x / length;
+                this.position.y += this.speed * point.y / length;
+                // }
 
             }
         }

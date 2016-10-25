@@ -1,5 +1,22 @@
 namespace Client {
     export class PlayerEntityView extends GameEntityView {
+
+        public flashLight: PIXI.Sprite;
+
+        public setFlashLight(flashLight: PIXI.Sprite) {
+            this.flashLight = flashLight;
+        }
+
+        public stepToPoint() {
+            super.stepToPoint();
+            if (this.activeMove && this.targetPosition) {
+                if(this.flashLight) {
+                    this.flashLight.position = this.view.position;
+                    this.flashLight.rotation = this.view.rotation;
+                }
+            }
+        }
+
         public initialize() {
             console.log(this.name);
             let textures: PIXI.Texture[] = [];
@@ -16,6 +33,8 @@ namespace Client {
             this.view.scale.set(.7);
             this.view.play();
             this.stage.addChild(this.view);
+
+
         }
     }
 }

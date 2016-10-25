@@ -16,29 +16,61 @@ namespace Server {
 
         }
 
+        // public box2d = new
+
         public msg: string;
         public interval: any;
         public fieldController: Controller.FieldController;
 
         public receiveMessage(msg: string, socket: any) {
-            console.log(socket.id);
+            // console.log(socket.id);
             this.msg = msg;
         }
 
+        public gameTick = 0;
+
         public update() {
+            this.gameTick++;
+
+
+            this.fieldController.collisionContainer.reset();
+
             this.fieldController.players.forEach((entity: Entities.PlayerEntity)=> {
+                if (this.gameTick % 5 == 0) {
+                    this.fieldController.collisionContainer.add(entity);
+                }
                 entity.stepToPoint();
             });
 
             this.fieldController.entities.forEach((entity: Entities.GameEntity)=> {
+                if (this.gameTick % 5 == 0) {
+                    this.fieldController.collisionContainer.add(entity);
+                }
                 entity.stepToPoint();
             });
         }
 
         public IINPC() {
             this.fieldController.entities.forEach((entity: Entities.GameEntity)=> {
-                entity.targetPosition = new Helper.Point(Helper.Core.getRandomInt(-1000, 1000), Helper.Core.getRandomInt(-1000, 1000))
-                entity.activeMove = true;
+
+                let playerId = Helper.Core.getRandomInt(0, this.fieldController.players.count());
+                if (playerId) {
+                    let foundPlayer: Entities.PlayerEntity = null;
+                    this.fieldController.players.forEach((player: Entities.PlayerEntity, key: number)=> {
+                        if ((key + 1) == playerId) {
+                            foundPlayer = player;
+                            return;
+                        }
+                    });
+
+                    if (foundPlayer) {
+                        entity.velocityVector = foundPlayer.getPosition().getVector(entity.position);
+                        entity.activeMove = true;
+                    }
+
+                }
+
+
             });
         }
 
