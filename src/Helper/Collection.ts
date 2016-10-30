@@ -6,6 +6,7 @@ namespace Helper {
         deltaTime:number;
         calcVector(i:number):any;
         setTargetPosition(point:Helper.Point):any;
+        setPosition(point:Helper.Point):any;
         activeMove:boolean;
         type:number;
         time:number;

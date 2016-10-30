@@ -10,10 +10,9 @@ namespace Client {
         public stage: PIXI.Container;
         public view: any;
         public loader: any;
-        public speed: number = 3;
+        public speed: number = 10;
         public time: number;
         public delta: number;
-
 
 
         public initialize() {
@@ -46,7 +45,7 @@ namespace Client {
 
         }
 
-        setPosition(currentPosition: Helper.Point) {
+        public setPosition(currentPosition: Helper.Point) {
             this.position = currentPosition;
             this.view.position.x = currentPosition.x;
             this.view.position.y = currentPosition.y;

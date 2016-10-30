@@ -14,7 +14,7 @@ namespace Entities {
 
         public targetVector: Helper.Point = new Helper.Point();
 
-        public speed = 1;
+        public speed = 10;
 
         public type = Server.Config.ENTITY_TYPES.PLAYER_ENTITY;
 

@@ -8,7 +8,7 @@ namespace Server {
 
             this.interval = setInterval(()=> {
                 this.update();
-            }, 5);
+            }, 1000 / 30);
 
             this.interval = setInterval(()=> {
                 this.IINPC();
@@ -32,20 +32,15 @@ namespace Server {
         public update() {
             this.gameTick++;
 
-
             this.fieldController.collisionContainer.reset();
 
             this.fieldController.players.forEach((entity: Entities.PlayerEntity)=> {
-                if (this.gameTick % 5 == 0) {
-                    this.fieldController.collisionContainer.add(entity);
-                }
+                this.fieldController.collisionContainer.add(entity);
                 entity.stepToPoint();
             });
 
             this.fieldController.entities.forEach((entity: Entities.GameEntity)=> {
-                if (this.gameTick % 5 == 0) {
-                    this.fieldController.collisionContainer.add(entity);
-                }
+                this.fieldController.collisionContainer.add(entity);
                 entity.stepToPoint();
             });
         }

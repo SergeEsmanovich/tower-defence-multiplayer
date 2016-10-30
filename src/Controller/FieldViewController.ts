@@ -83,8 +83,9 @@ namespace Conroller {
                      * @var entityView Client.GameEntityView
                      */
                     let entityView = this.entityViews.get(entity.key);
-                    entityView.setTargetPosition(entity.position);
-                    entityView.activeMove = true;
+                    // entityView.setTargetPosition(entity.position);
+                    entityView.setPosition(entity.position);
+                    // entityView.activeMove = true;
                     entityView.time = entity.time;
                     if (entityView.type == Server.Config.ENTITY_TYPES.PLAYER_ENTITY) {
                         entityView.deltaTime = new Date().getTime() - entity.time;

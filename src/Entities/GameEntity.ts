@@ -23,7 +23,7 @@ namespace Entities {
         public type: number = Server.Config.ENTITY_TYPES.CANDY_ENTITY;
         public position: Helper.Point;
 
-        public speed: number = 0.5;
+        public speed: number = 2.5;
 
         public targetPosition: Helper.Point = null;
 
@@ -46,6 +46,10 @@ namespace Entities {
             let normal = this.position.getVector(entity.position);
             this.velocityVector.x += normal.x;
             this.velocityVector.y += normal.y;
+            // let temp = this.velocityVector;
+            // this.velocityVector = entity.velocityVector;
+            // entity.velocityVector = temp;
+
             // this.velocityVector.multiplyVector(-1);
             this.collisionDetected = false;
 
