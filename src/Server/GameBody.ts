@@ -61,6 +61,8 @@ namespace Server {
                     if (foundPlayer) {
                         entity.velocityVector = foundPlayer.getPosition().getVector(entity.position);
                         entity.activeMove = true;
+                    }else{
+                        entity.activeMove = false;
                     }
 
                 }
@@ -77,8 +79,8 @@ namespace Server {
         private createWalls() {
             for (let i = 0; i < 100; i++) {
                 let wall = new Entities.GameEntity();
-                wall.position.x = Helper.Core.getRandomInt(-1000, 1000);
-                wall.position.y = Helper.Core.getRandomInt(-1000, 1000);
+                wall.position.x = Helper.Core.getRandomInt(-500, 500);
+                wall.position.y = Helper.Core.getRandomInt(-500, 500);
                 wall.id = this.fieldController.getNextEntityId();
                 wall.key = wall.id.toString();
                 this.fieldController.addEntity(wall);

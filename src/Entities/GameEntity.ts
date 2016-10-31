@@ -46,9 +46,7 @@ namespace Entities {
             let normal = this.position.getVector(entity.position);
             this.velocityVector.x += normal.x;
             this.velocityVector.y += normal.y;
-            // let temp = this.velocityVector;
-            // this.velocityVector = entity.velocityVector;
-            // entity.velocityVector = temp;
+
 
             // this.velocityVector.multiplyVector(-1);
             this.collisionDetected = false;
