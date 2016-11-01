@@ -54,6 +54,9 @@ namespace Server {
                 let clientData = msg.split(',');
 
                 player.inputCode = Number(clientData[0]);
+
+                console.log(player.inputCode);
+
                 player.clientTime = Number(clientData[1]);
                 player.deltaTime = new Date().getTime() - player.clientTime;
 

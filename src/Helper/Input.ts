@@ -51,8 +51,7 @@ namespace Helper {
         };
 
         public mouseMove(e: any) {
-            this.lookAtPoint.x = e.layerX;
-            this.lookAtPoint.y = e.layerY;
+            this.lookAtPoint = new Helper.Point(e.clientX,e.clientY);
             e.preventDefault();
         }
 
@@ -69,17 +68,17 @@ namespace Helper {
             document.addEventListener('keyup', function (e) {
                 that.keyUp(e);
             }, false);
-            // document.getElementById('gameContainer').addEventListener('mousemove', function (e) {
-            //     that.mouseMove(e);
-            // }, false);
-            // document.getElementById('gameContainer').addEventListener('mousedown', function (e) {
-            //     that.keyPressed++;
-            //     that.keys.mouse = true;
-            // }, false);
-            // document.getElementById('gameContainer').addEventListener('mouseup', function (e) {
-            //     that.keyPressed--;
-            //     that.keys.mouse = false;
-            // }, false);
+            document.addEventListener('mousemove', function (e) {
+                that.mouseMove(e);
+            }, false);
+            document.addEventListener('mousedown', function (e) {
+                that.keyPressed++;
+                that.keys.mouse = true;
+            }, false);
+            document.addEventListener('mouseup', function (e) {
+                that.keyPressed--;
+                that.keys.mouse = false;
+            }, false);
         };
 
         public isKeyPressed() {
@@ -107,7 +106,7 @@ namespace Helper {
             if (this.keys['right']) input |= Helper.Core.INPUT_BITMASK.RIGHT;
             if (this.keys['space']) input |= Helper.Core.INPUT_BITMASK.SPACE;
             if (this.keys['shift']) input |= Helper.Core.INPUT_BITMASK.SHIFT;
-            if (this.keys['tab']) input |= Helper.Core.INPUT_BITMASK.TAB;
+            if (this.keys['mouse']) input |= Helper.Core.INPUT_BITMASK.MOUSE;
 
             return input;
         };
