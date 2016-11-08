@@ -12,10 +12,12 @@ namespace Server {
         public express:any;
 
         private initialize() {
-            // this.express = require('express');
-            // this.app = this.express();
-            // this.http = require('http').Server(this.app);
-            //
+            this.express = require('express');
+            this.app = this.express();
+
+            // var b2World = require(__dirname+'\\lib\\box2d\\dynamics\\b2World');
+
+
             var server = require('http').createServer(function (req:any, res:any) {
             });
             server.listen(Server.Config.SERVER_SETTING.SOCKET_PORT);
