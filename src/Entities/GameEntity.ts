@@ -31,6 +31,9 @@ namespace Entities {
 
         public time: number;
 
+        public world:any;
+        public body:any;
+
         public velocityVector: Helper.Point = new Helper.Point();
 
         public setName(name: string) {

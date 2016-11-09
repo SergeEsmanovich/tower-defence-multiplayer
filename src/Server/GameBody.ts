@@ -73,35 +73,26 @@ namespace Server {
         private buildWorld() {
             this.BOX2D = require('./lib/box2d/box2d');
             this.world = new this.BOX2D.b2World(new this.BOX2D.b2Vec2(0, 0), true);
-            // this.createWalls();
+            this.createBalls();
 
-            var fixtureDef = new this.BOX2D.b2FixtureDef();
-            fixtureDef.shape = new this.BOX2D.b2CircleShape(20);
-            fixtureDef.friction = 0.4;
-            fixtureDef.restitution = 0.6;
-            fixtureDef.density = 1.0;
-            var ballBd = new this.BOX2D.b2BodyDef();
-            ballBd.type = this.BOX2D.b2Body.b2_dynamicBody;
-            ballBd.position.Set(100, 100);
-            var body1 = this.world.CreateBody(ballBd);
-            body1.CreateFixture(fixtureDef);
+            //
+            //
+            // var fixtureDef = new this.BOX2D.b2FixtureDef();
+            // fixtureDef.shape = new this.BOX2D.b2CircleShape(20);
+            // fixtureDef.friction = 0.4;
+            // fixtureDef.restitution = 0.6;
+            // fixtureDef.density = 1.0;
+            // var ballBd = new this.BOX2D.b2BodyDef();
+            // ballBd.type = this.BOX2D.b2Body.b2_dynamicBody;
+            // ballBd.position.Set(50, 100);
+            // var body2 = this.world.CreateBody(ballBd);
+            // body2.CreateFixture(fixtureDef);
 
-            var fixtureDef = new this.BOX2D.b2FixtureDef();
-            fixtureDef.shape = new this.BOX2D.b2CircleShape(20);
-            fixtureDef.friction = 0.4;
-            fixtureDef.restitution = 0.6;
-            fixtureDef.density = 1.0;
-            var ballBd = new this.BOX2D.b2BodyDef();
-            ballBd.type = this.BOX2D.b2Body.b2_dynamicBody;
-            ballBd.position.Set(50, 100);
-            var body2 = this.world.CreateBody(ballBd);
-            body2.CreateFixture(fixtureDef);
-
-            body2.ApplyForce(new this.BOX2D.b2Vec2(50, 0),body2.GetWorldCenter());
+            // body2.ApplyForce(new this.BOX2D.b2Vec2(50, 0),body2.GetWorldCenter());
 
             // this.world.CreateBody(ballBd);
 
-            this.createBall(this.world, 0, 0);
+            // this.createBall(this.world, 0, 0);
 
             this.step();
 
@@ -114,26 +105,45 @@ namespace Server {
             setTimeout(()=> {
 
                 // console.log(this.world.m_bodyList);
-                for (var b = this.world.m_bodyList; b; b = b.m_next) {
-                    console.log(b.m_xf.position);
-                    // for (var s = b.GetShapeList(); s != null; s = s.GetNext()) {
-                    //     console.log(s);
-                    // }
-                }
+                // for (var b = this.world.m_bodyList; b; b = b.m_next) {
+                //     console.log(b.m_xf.position);
+                //     // for (var s = b.GetShapeList(); s != null; s = s.GetNext()) {
+                //     //     console.log(s);
+                //     // }
+                // }
+
+                this.fieldController.entities.forEach((entity: Entities.GameEntity)=> {
+                    entity.setPosition(entity.body.m_xf.position);
+
+                });
+
+
                 this.step();
             }, 10);
         }
 
 
-        private createWalls() {
-            for (let i = 0; i < 100; i++) {
-                let wall = new Entities.GameEntity();
-                wall.position.x = Helper.Core.getRandomInt(-500, 500);
-                wall.position.y = Helper.Core.getRandomInt(-500, 500);
-                wall.id = this.fieldController.getNextEntityId();
-                wall.key = wall.id.toString();
-                this.fieldController.addEntity(wall);
-            }
+        private createBalls() {
+            let ball = new Entities.GameEntity();
+            ball.world = this.world;
+            var fixtureDef = new this.BOX2D.b2FixtureDef();
+            fixtureDef.shape = new this.BOX2D.b2CircleShape(20);
+            fixtureDef.friction = 0.4;
+            fixtureDef.restitution = 0.6;
+            fixtureDef.density = 1.0;
+            var ballBd = new this.BOX2D.b2BodyDef();
+            ballBd.type = this.BOX2D.b2Body.b2_dynamicBody;
+            ballBd.position.Set(100, 100);
+
+            ball.setPosition(new Helper.Point(100, 100));
+            ball.id = this.fieldController.getNextEntityId();
+            ball.key = ball.id.toString();
+            ball.body = this.world.CreateBody(ballBd);
+            ball.body.CreateFixture(fixtureDef);
+            // ball.body.ApplyImpulse(new this.BOX2D.b2Vec2(50, 0), new this.BOX2D.b2Vec2(100, 100));
+            // ball.body.ApplyForce(new this.BOX2D.b2Vec2(50, 0), ball.body.GetWorldCenter());
+
+            this.fieldController.addEntity(ball);
         }
 
 
