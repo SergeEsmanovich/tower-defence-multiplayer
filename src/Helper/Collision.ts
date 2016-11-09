@@ -15,8 +15,8 @@ namespace Helper {
         public container: Entities.GameEntity[] = [];
 
         public add(entity: Entities.GameEntity) {
-            this.getLength(entity);
-            this.container.push(entity);
+            // this.getLength(entity);
+            // this.container.push(entity);
 
         }
 

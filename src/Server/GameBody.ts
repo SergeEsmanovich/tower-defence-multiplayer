@@ -72,7 +72,7 @@ namespace Server {
 
         private buildWorld() {
             this.BOX2D = require('./lib/box2d/box2d');
-            this.world = new this.BOX2D.b2World(new this.BOX2D.b2Vec2(0, -10), true);
+            this.world = new this.BOX2D.b2World(new this.BOX2D.b2Vec2(0, 0), true);
             // this.createWalls();
 
             var fixtureDef = new this.BOX2D.b2FixtureDef();
@@ -97,6 +97,7 @@ namespace Server {
             var body2 = this.world.CreateBody(ballBd);
             body2.CreateFixture(fixtureDef);
 
+            body2.ApplyForce(new this.BOX2D.b2Vec2(50, 0),body2.GetWorldCenter());
 
             // this.world.CreateBody(ballBd);
 
@@ -112,6 +113,7 @@ namespace Server {
             this.world.Step(timeStep, iteration);
             setTimeout(()=> {
 
+                // console.log(this.world.m_bodyList);
                 for (var b = this.world.m_bodyList; b; b = b.m_next) {
                     console.log(b.m_xf.position);
                     // for (var s = b.GetShapeList(); s != null; s = s.GetNext()) {
