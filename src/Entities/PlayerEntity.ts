@@ -40,18 +40,18 @@ namespace Entities {
             this.input.deconstructInputBitmask(input);
 
             if (this.input.isLeft()) {
-                this.body.ApplyImpulse(new this.BOX2D.b2Vec2(-20, 0), this.body.GetWorldCenter());
+                this.body.ApplyImpulse(new this.BOX2D.b2Vec2(-200, 0), this.body.GetWorldCenter());
             }
             if (this.input.isRight()) {
-                this.body.ApplyImpulse(new this.BOX2D.b2Vec2(20, 0), this.body.GetWorldCenter());
+                this.body.ApplyImpulse(new this.BOX2D.b2Vec2(200, 0), this.body.GetWorldCenter());
             }
             if (this.input.isUp()) {
-                this.body.ApplyImpulse(new this.BOX2D.b2Vec2(0, -20), this.body.GetWorldCenter());
+                this.body.ApplyImpulse(new this.BOX2D.b2Vec2(0, -200), this.body.GetWorldCenter());
             }
             if (this.input.isDown()) {
-                this.body.ApplyImpulse(new this.BOX2D.b2Vec2(0, 20), this.body.GetWorldCenter());
+                this.body.ApplyImpulse(new this.BOX2D.b2Vec2(0, 200), this.body.GetWorldCenter());
             }
-            console.log(this.position);
+            // console.log(this.position);
         }
 
 

@@ -45,6 +45,7 @@ namespace Controller {
 
         public addEntity(entity: Entities.GameEntity) {
             this.setupBox2dCircle(entity);
+            entity.body.ApplyForce(new this.BOX2D.b2Vec2(0, 200), entity.body.GetWorldCenter());
             this.entities.add(entity);
         }
 
