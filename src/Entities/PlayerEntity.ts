@@ -8,6 +8,8 @@ namespace Entities {
             this.input = new Helper.Input();
         }
 
+        public BOX2D: any;
+
         public client: Controller.Client;
         public input: Helper.Input;
         public inputCode: number = 0;
@@ -19,7 +21,7 @@ namespace Entities {
         public type = Server.Config.ENTITY_TYPES.PLAYER_ENTITY;
 
         public clientTime: number;
-        public deltaTime:number;
+        public deltaTime: number;
 
         setClient(client: Controller.Client) {
             this.client = client;
@@ -36,27 +38,20 @@ namespace Entities {
 
         public calcVector(input: number) {
             this.input.deconstructInputBitmask(input);
-            this.activeMove = false;
-            this.targetVector = new Helper.Point();
+
             if (this.input.isLeft()) {
-                this.targetVector.addVector(new Helper.Point(-1, 0));
-                this.activeMove = true;
+                this.body.ApplyImpulse(new this.BOX2D.b2Vec2(-20, 0), this.body.GetWorldCenter());
             }
             if (this.input.isRight()) {
-                this.targetVector.addVector(new Helper.Point(1, 0));
-                this.activeMove = true;
+                this.body.ApplyImpulse(new this.BOX2D.b2Vec2(20, 0), this.body.GetWorldCenter());
             }
             if (this.input.isUp()) {
-                this.targetVector.addVector(new Helper.Point(0, -1));
-                this.activeMove = true;
+                this.body.ApplyImpulse(new this.BOX2D.b2Vec2(0, -20), this.body.GetWorldCenter());
             }
             if (this.input.isDown()) {
-                this.targetVector.addVector(new Helper.Point(0, 1));
-                this.activeMove = true;
+                this.body.ApplyImpulse(new this.BOX2D.b2Vec2(0, 20), this.body.GetWorldCenter());
             }
-
-            // console.log(this.activeMove);
-            // console.log(this.targetVector);
+            console.log(this.position);
         }
 
 
