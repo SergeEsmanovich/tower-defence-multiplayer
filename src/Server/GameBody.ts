@@ -6,7 +6,9 @@ namespace Server {
             this.fieldController = fieldController;
             this.BOX2D = this.fieldController.BOX2D;
             this.world = this.fieldController.world;
-            this.createBall();
+            for (let i = 0; i < 1000; i++) {
+                this.createBall();
+            }
             this.step();
         }
 
@@ -77,7 +79,7 @@ namespace Server {
         private createBall() {
             let ball = new Entities.GameEntity();
 
-            ball.setPosition(new Helper.Point(100, 100));
+            ball.setPosition(new Helper.Point(Helper.Core.getRandomInt(-1000, 1000), Helper.Core.getRandomInt(-1000, 1000)));
             ball.id = this.fieldController.getNextEntityId();
             ball.key = ball.id.toString();
             // ball.body.ApplyForce(new this.BOX2D.b2Vec2(50, 0), ball.body.GetWorldCenter());

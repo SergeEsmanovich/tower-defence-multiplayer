@@ -45,7 +45,7 @@ namespace Controller {
 
         public addEntity(entity: Entities.GameEntity) {
             this.setupBox2dCircle(entity);
-            entity.body.ApplyForce(new this.BOX2D.b2Vec2(0, 200), entity.body.GetWorldCenter());
+            // entity.body.ApplyForce(new this.BOX2D.b2Vec2(0, 200), entity.body.GetWorldCenter());
             this.entities.add(entity);
         }
 
@@ -54,9 +54,10 @@ namespace Controller {
             entity.world = this.world;
             var fixtureDef = new this.BOX2D.b2FixtureDef();
             fixtureDef.shape = new this.BOX2D.b2CircleShape(entity.radius);
-            fixtureDef.friction = 0.4;
-            fixtureDef.restitution = 0.6;
-            fixtureDef.density = 1.0;
+            fixtureDef.friction = 0.3;
+            fixtureDef.restitution = 0.4;
+            fixtureDef.density = 0.48;
+            fixtureDef.driction = 0.3;
             var ballBd = new this.BOX2D.b2BodyDef();
             ballBd.type = this.BOX2D.b2Body.b2_dynamicBody;
             ballBd.position.Set(entity.position.x, entity.position.y);
